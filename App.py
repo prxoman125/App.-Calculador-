@@ -1,6 +1,6 @@
 import streamlit as st
 
-# Configuración de página e inyección de CSS para diseño y ocultar menús
+# Configuración de página e inyección de CSS
 st.set_page_config(page_title="Calculadora por Sectores", layout="centered")
 
 st.markdown("""
@@ -10,11 +10,13 @@ st.markdown("""
         visibility: hidden !important;
     }
     
-    /* Separar los botones de más (+) y menos (-) en los campos numéricos */
+    /* Separar los botones de más (+) y menos (-) manteniendo su tamaño original intacto */
     button[data-testid="stNumberInputStepUp"], 
     button[data-testid="stNumberInputStepDown"] {
-        margin-top: 4px !important;
-        margin-bottom: 4px !important;
+        margin-top: 5px !important;
+        margin-bottom: 5px !important;
+        height: auto !important;
+        min-height: revert !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -35,7 +37,6 @@ if sector == "Tecnología / Software":
     st.subheader("💻 Sector Tecnológico (Cálculo de Licencias / SaaS)")
     usuarios = st.number_input("Número de usuarios activos:", min_value=1, value=50, step=1)
     costo_por_usuario = st.number_input("Costo mensual por usuario ($):", min_value=0.0, value=15.0, step=0.5)
-    # Cambiado de slider a number_input
     descuento = st.number_input("Descuento aplicado (%):", min_value=0, max_value=100, value=5, step=1)
     
     if st.button("Calcular Total"):
@@ -58,7 +59,6 @@ elif sector == "Manufactura":
 elif sector == "Comercio / Retail":
     st.subheader("🛍️ Sector Comercio (Cálculo de Margen y Venta)")
     costo_producto = st.number_input("Costo de adquisición del producto ($):", min_value=0.0, value=50.0, step=1.0)
-    # Cambiado de slider a number_input
     margen_ganancia = st.number_input("Margen de ganancia deseado (%):", min_value=1, max_value=500, value=30, step=5)
     impuesto = st.number_input("Impuesto local / IVA (%):", min_value=0.0, value=16.0, step=0.5)
     
