@@ -70,7 +70,7 @@ st.markdown("""
         color: #FFFFFF !important;
     }
 
-    /* === EFECTO DE INTERACCIÓN Y BRILLO NEÓN (SÓLO RECUADRO) === */
+    /* === EFECTO DE INTERACCIÓN Y BRILLO NEÓN EN EL RECUADRO PRINCIPAL === */
     div[data-testid="stNumberInput"] > div:first-of-type:hover,
     div[data-testid="stNumberInput"] > div:first-of-type:focus-within,
     div[data-testid="stSelectbox"] > div:first-of-type > div:hover,
@@ -79,41 +79,50 @@ st.markdown("""
         box-shadow: 0 0 12px rgba(43, 108, 176, 0.55) !important;
     }
     
-    /* === NUEVO DISEÑO FUSIONADO PARA LOS BOTONES MÁS Y MENOS === */
-    /* Contenedor vertical de botones: se elimina el fondo gris interno y el gap a 0px */
+    /* === NUEVO DISEÑO SIN FONDO, CENTRADO Y SEPARADO PARA + Y - === */
+    /* Contenedor vertical de botones totalmente transparente */
     div[data-testid="stNumberInputStepUpAndDown"] {
         height: 100% !important;
         display: flex !important;
         flex-direction: column !important;
-        justify-content: stretch !important;
-        padding: 0 !important;
-        gap: 0px !important; /* Fusiona por completo ambas celdas eliminando espacios vacíos */
-        overflow: hidden !important;
-        border-radius: 0px 6px 6px 0px !important;
-        /* Degradado de dos tonos de azul que cubre verticalmente todo el bloque de botones */
-        background: linear-gradient(to bottom, #2B6CB0, #1A365D) !important;
+        justify-content: center !important; /* Centra los botones en el eje vertical */
+        align-items: center !important;     /* Centra los botones en el eje horizontal */
+        padding: 0 6px !important;
+        gap: 6px !important; /* Separación física limpia entre el botón más y menos */
+        background: transparent !important;
+        border: none !important;
     }
 
-    /* Estilo estructural base para los botones individuales */
+    /* Estilo de los botones: transparentes, centrados y con transiciones suaves */
     button[data-testid="stNumberInputStepUp"], 
     button[data-testid="stNumberInputStepDown"] {
-        height: 50% !important; /* Cada botón toma exactamente la mitad del alto */
-        flex-grow: 1 !important;
+        height: 14px !important; /* Tamaño controlado para que se centren mejor */
+        width: 24px !important;
         margin: 0 !important;
-        border-radius: 0px !important; /* Quitamos bordes internos individuales */
+        border-radius: 4px !important;
         border: none !important;
-        color: white !important;
-        /* Hacemos el fondo del botón transparente para que se transparente el degradado de abajo */
-        background-color: transparent !important; 
-        transition: background-color 0.2s ease-in-out !important;
+        color: #A0AEC0 !important; /* Color gris suave por defecto para el icono */
+        background-color: transparent !important; /* Sin fondo por defecto */
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        transition: all 0.2s ease-in-out !important;
     }
 
-    /* Efectos hover sutiles para oscurecer ligeramente la zona donde está el cursor */
-    button[data-testid="stNumberInputStepUp"]:hover {
-        background-color: rgba(255, 255, 255, 0.1) !important;
-    }
+    /* Efecto al pasar el cursor (Hover) */
+    button[data-testid="stNumberInputStepUp"]:hover, 
     button[data-testid="stNumberInputStepDown"]:hover {
-        background-color: rgba(0, 0, 0, 0.2) !important;
+        color: #FFFFFF !important; /* El icono se ilumina en blanco al pasar el mouse */
+        background-color: rgba(255, 255, 255, 0.05) !important; /* Fondo apenas perceptible */
+    }
+
+    /* EFECTO CLICK: Destello neón azul oscuro al presionar el botón */
+    button[data-testid="stNumberInputStepUp"]:active, 
+    button[data-testid="stNumberInputStepDown"]:active {
+        background-color: #1A365D !important; /* Fondo azul oscuro al presionar */
+        color: #FFFFFF !important;
+        box-shadow: 0 0 10px #1A365D, 0 0 20px #1A365D !important; /* Brillo neón azul oscuro concentrado */
+        transform: scale(0.95); /* Ligero efecto de hundimiento táctil */
     }
     </style>
 """, unsafe_allow_html=True)
@@ -144,7 +153,7 @@ if sector == "Tecnología / Software":
         st.success(f"Costo Total Mensual: ${total:.2f}")
 
 elif sector == "Manufactura":
-    st.subheader("⚙️ Sector Manufactura (Cálculo de Production)")
+    st.subheader("⚙️ Sector Manufactura (Cálculo de Producción)")
     unidades = st.number_input("Unidades a producir:", min_value=1, value=1000, step=10)
     costo_material = st.number_input("Costo de material por unidad ($):", min_value=0.0, value=5.5, step=0.1)
     costo_operativo_fijo = st.number_input("Costos operativos fijos ($):", min_value=0.0, value=2000.0, step=50.0)
