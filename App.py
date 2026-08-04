@@ -9,7 +9,6 @@ if "idioma" not in st.session_state:
 if "historial" not in st.session_state:
     st.session_state.historial = []
 
-# Zona horaria México Centro (León, GTO) UTC-6
 ZONA_MEXICO = timezone(timedelta(hours=-6))
 
 def guardar_en_tabla(sector, detalle, resultado):
@@ -35,139 +34,75 @@ st.markdown("""
         font-weight: 700 !important;
     }
     .titulo-container {
-        background: linear-gradient(135deg, #020617 0%, #0f172a 25%, #1e3a8a 50%, #3b82f6 75%, #020617 100%);
-        background-size: 300% 300%;
-        animation: fondoAzulClaroOscuro 6s ease-in-out infinite;
+        /* Azul medio a morado medio en bucle lineal */
+        background: linear-gradient(90deg, #2563EB 0%, #3B82F6 25%, #6366F1 50%, #7C3AED 75%, #2563EB 100%);
+        background-size: 300% 100%;
+        animation: fondoLinealAzulMorado 6s linear infinite;
         padding: 24px;
         border-radius: 12px;
         text-align: center;
         margin-bottom: 28px;
-        border: 3px solid #1e3a8a; 
+        border: 3px solid #2563EB; 
     }
     .titulo-texto {
         color: #FFFFFF !important;
         background: none !important;
         -webkit-text-fill-color: #FFFFFF !important;
-        font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-family: 'Inter', sans-serif;
         font-weight: 800;
         font-size: 30px;
-        letter-spacing: -0.5px;
         margin: 0 !important;
-        padding: 0 !important;
         display: inline-block;
     }
-    /* Fondo oscuro -> claro y margen neón sincronizado */
-    @keyframes fondoAzulClaroOscuro {
+    /* CAMBIO LINEAL - no regresa, sigue de corrido */
+    @keyframes fondoLinealAzulMorado {
         0% {
             background-position: 0% 50%;
-            border-color: #020617;
-            box-shadow: 0 0 10px rgba(2, 6, 23, 0.8), 0 0 20px rgba(30, 58, 138, 0.4);
+            border-color: #2563EB;
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.5), 0 0 20px rgba(37, 99, 235, 0.3);
         }
         50% {
             background-position: 100% 50%;
-            border-color: #60a5fa;
-            box-shadow: 0 0 12px rgba(59, 130, 246, 0.9), 0 0 25px rgba(96, 165, 250, 0.6);
+            border-color: #7C3AED;
+            box-shadow: 0 0 12px rgba(124, 58, 237, 0.6), 0 0 25px rgba(124, 58, 237, 0.4);
         }
         100% {
-            background-position: 0% 50%;
-            border-color: #020617;
-            box-shadow: 0 0 10px rgba(2, 6, 23, 0.8), 0 0 20px rgba(30, 58, 138, 0.4);
+            background-position: 200% 50%;
+            border-color: #2563EB;
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.5), 0 0 20px rgba(37, 99, 235, 0.3);
         }
     }
-    div[data-testid="stNotificationV2"], 
-    div[role="alert"],
-    div.stAlert,
-    .element-container:has(div[role="alert"]) div[role="alert"] {
-        background-image: none !important;
-        background-color: transparent !important;
-        border-radius: 8px !important;
+    div[data-testid="stNotificationV2"], div[role="alert"], div.stAlert {
+        background-image: none !important; background-color: transparent !important; border-radius: 8px !important;
     }
-    div[data-testid="stNotificationV2"]:has(svg[title="Success"]),
-    div[role="alert"]:has(svg[title="Success"]),
-    .stAlert:has(svg[title="Success"]) {
-        background: linear-gradient(135deg, #10B981, #064E3B) !important;
-        border: 2px solid #10B981 !important;
-        color: #FFFFFF !important;
+    div[data-testid="stNotificationV2"]:has(svg[title="Success"]), div[role="alert"]:has(svg[title="Success"]) {
+        background: linear-gradient(135deg, #10B981, #064E3B) !important; border: 2px solid #10B981 !important; color: #FFF !important;
     }
-    div[data-testid="stNotificationV2"]:has(svg[title="Info"]),
-    div[role="alert"]:has(svg[title="Info"]),
-    .stAlert:has(svg[title="Info"]) {
-        background: linear-gradient(135deg, #3B82F6, #1E3A8A) !important;
-        border: 2px solid #3B82F6 !important;
-        color: #FFFFFF !important;
+    div[data-testid="stNotificationV2"]:has(svg[title="Info"]), div[role="alert"]:has(svg[title="Info"]) {
+        background: linear-gradient(135deg, #3B82F6, #1E3A8A) !important; border: 2px solid #3B82F6 !important; color: #FFF !important;
     }
-    .stAlert p, .stAlert div, div[role="alert"] p, div[role="alert"] div, div[data-testid="stNotificationContent"] span {
-        color: #FFFFFF !important;
-    }
+    .stAlert p, .stAlert div { color: #FFFFFF !important; }
     div[data-testid="stNumberInput"] > div:first-of-type, 
     div[data-testid="stSelectbox"] > div:first-of-type > div {
-        border: 2px solid #1A365D !important;
-        border-radius: 8px !important;
-        transition: all 0.25s ease-in-out !important;
+        border: 2px solid #1A365D !important; border-radius: 8px !important;
         background: linear-gradient(135deg, #22252A, #0F1115) !important;
-        position: relative !important;
-    }
-    div[data-testid="stNumberInput"] div, 
-    div[data-testid="stSelectbox"] div {
-        border: none !important;
-        background-color: transparent !important;
     }
     .stNumberInput input {
-        color: #93C5FD !important;
-        text-align: center !important;
-        padding-left: 80px !important;
-        padding-right: 90px !important;
-        font-weight: 600 !important;
+        color: #93C5FD !important; text-align: center !important;
+        padding-left: 80px !important; padding-right: 90px !important; font-weight: 600 !important;
     }
-    div[data-baseweb="select"] span, 
-    div[data-baseweb="select"] div,
-    .stSelectbox div[data-baseweb="select"] {
-        color: #93C5FD !important;
-    }
-    div[data-testid="stNumberInput"] > div:first-of-type:hover,
-    div[data-testid="stNumberInput"] > div:first-of-type:focus-within,
-    div[data-testid="stSelectbox"] > div:first-of-type > div:hover,
-    div[data-testid="stSelectbox"] > div:first-of-type > div:focus-within {
-        border-color: #2B6CB0 !important;
-    }
+    div[data-baseweb="select"] span, div[data-baseweb="select"] div { color: #93C5FD !important; }
     div[data-testid="stNumberInputStepUpAndDown"] {
-        position: absolute !important;
-        top: 0 !important;
-        right: 12px !important;
-        height: 100% !important;
-        width: 80px !important;
-        display: block !important;
-        background: transparent !important;
+        position: absolute !important; top: 0 !important; right: 12px !important;
+        height: 100% !important; width: 80px !important; background: transparent !important;
     }
-    button[data-testid="stNumberInputStepUp"], 
-    button[data-testid="stNumberInputStepDown"] {
-        position: absolute !important;
-        top: 50% !important;
-        transform: translateY(-50%) !important;
-        height: 24px !important;
-        width: 24px !important;
-        margin: 0 !important;
-        border-radius: 4px !important;
-        border: none !important;
-        color: #A0AEC0 !important;
-        background-color: transparent !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
+    button[data-testid="stNumberInputStepUp"], button[data-testid="stNumberInputStepDown"] {
+        position: absolute !important; top: 50% !important; transform: translateY(-50%) !important;
+        height: 24px !important; width: 24px !important; border: none !important;
+        color: #A0AEC0 !important; background: transparent !important;
     }
     button[data-testid="stNumberInputStepDown"] { left: 6px !important; }
     button[data-testid="stNumberInputStepUp"] { right: 6px !important; }
-    button[data-testid="stNumberInputStepUp"]:hover, 
-    button[data-testid="stNumberInputStepDown"]:hover {
-        color: #FFFFFF !important;
-        background-color: rgba(255, 255, 255, 0.05) !important;
-    }
-    button[data-testid="stNumberInputStepUp"]:active, 
-    button[data-testid="stNumberInputStepDown"]:active {
-        background-color: #1A365D !important;
-        color: #FFFFFF !important;
-        transform: translateY(-50%) scale(0.92) !important;
-    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -218,7 +153,6 @@ if sector in ["Tecnología / Software", "Technology / Software"]:
         total = usuarios * costo_por_usuario * (1 - descuento / 100)
         st.success(txt["tech_res"].format(total))
         guardar_en_tabla(sector, f"{usuarios}u x ${costo_por_usuario} -{descuento}%", f"${total:.2f}")
-
 elif sector in ["Manufactura", "Manufacturing"]:
     st.subheader(txt["man_sub"])
     unidades = st.number_input(txt["man_u"], min_value=1, value=1000, step=10)
@@ -229,7 +163,6 @@ elif sector in ["Manufactura", "Manufacturing"]:
         st.success(txt["man_res1"].format(total))
         st.info(txt["man_res2"].format(total / unidades))
         guardar_en_tabla(sector, f"{unidades}u | mat ${costo_material} + fijo ${costo_operativo_fijo}", f"${total:.2f}")
-
 elif sector in ["Comercio / Retail", "Retail / Commerce"]:
     st.subheader(txt["com_sub"])
     costo_producto = st.number_input(txt["com_c"], min_value=0.0, value=50.0, step=1.0)
@@ -241,7 +174,6 @@ elif sector in ["Comercio / Retail", "Retail / Commerce"]:
         st.success(txt["com_res1"].format(precio_final))
         st.info(txt["com_res2"].format(precio_base - costo_producto))
         guardar_en_tabla(sector, f"Costo ${costo_producto} + {margen_ganancia}% + IVA {impuesto}%", f"${precio_final:.2f}")
-
 elif sector in ["Salud / Clínica", "Healthcare / Clinic"]:
     st.subheader(txt["sal_sub"])
     consultas = st.number_input(txt["sal_c"], min_value=1, value=120, step=5)
@@ -252,23 +184,20 @@ elif sector in ["Salud / Clínica", "Healthcare / Clinic"]:
         ganancia = consultas * (precio_consulta - costo_operativo)
         st.success(txt["sal_res1"].format(ingresos))
         st.info(txt["sal_res2"].format(ganancia))
-        guardar_en_tabla(sector, f"{consultas} cons x ${precio_consulta} - ${costo_operativo} costo", f"${ganancia:.2f}")
-
+        guardar_en_tabla(sector, f"{consultas} cons x ${precio_consulta}", f"${ganancia:.2f}")
 elif sector in ["Construcción / Obras", "Construction / Building"]:
     st.subheader(txt["con_sub"])
     metros = st.number_input(txt["con_m"], min_value=1.0, value=150.0, step=10.0)
     costo_material_m2 = st.number_input(txt["con_c"], min_value=0.0, value=120.0, step=5.0)
     costo_obra_m2 = st.number_input(txt["con_o"], min_value=0.0, value=80.0, step=5.0)
     if st.button(txt["con_btn"]):
-        costo_m2_total = costo_material_m2 + costo_obra_m2
-        total = metros * costo_m2_total
+        total = metros * (costo_material_m2 + costo_obra_m2)
         st.success(txt["con_res1"].format(total))
-        st.info(txt["con_res2"].format(costo_m2_total))
+        st.info(txt["con_res2"].format(costo_material_m2 + costo_obra_m2))
         guardar_en_tabla(sector, f"{metros} m² x (${costo_material_m2}+${costo_obra_m2})", f"${total:.2f}")
 
 st.divider()
 st.subheader(txt["hist_titulo"])
-
 if st.session_state.historial:
     df = pd.DataFrame(st.session_state.historial)
     st.dataframe(df, use_container_width=True, hide_index=True)
@@ -276,4 +205,4 @@ if st.session_state.historial:
         st.session_state.historial = []
         st.rerun()
 else:
-    st.info(txt["hist_vacio"])
+    st.info(txt["hist_vacio"]) 
