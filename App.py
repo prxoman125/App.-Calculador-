@@ -242,5 +242,5 @@ elif sector == "Comercio / Retail":
         precio_final = precio_base * (1 + impuesto / 100)
         ganancia_neta = precio_final - costo_producto
 
-st.success(f"Precio de Venta al Público: ${precio_final:.2f}")
-st.info(f"Ganancia neta por producto: ${ganancia_neta:.2f}")
+        st.success(f"Precio de Venta al Público: ${precio_final:.2f}")
+        st.info(f"Ganancia neta por producto: ${ganancia_neta:.2f}")
