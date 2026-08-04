@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 
 st.set_page_config(page_title="Calculadora por Sectores / Sector Calculator", layout="centered")
 
@@ -9,12 +9,15 @@ if "idioma" not in st.session_state:
 if "historial" not in st.session_state:
     st.session_state.historial = []
 
+# Zona horaria México Centro (León, GTO) UTC-6
+ZONA_MEXICO = timezone(timedelta(hours=-6))
+
 def guardar_en_tabla(sector, detalle, resultado):
-    # Máximo 15, si hay más borra la más antigua
     if len(st.session_state.historial) >= 15:
         st.session_state.historial.pop(0)
+    hora_mexico = datetime.now(ZONA_MEXICO).strftime("%H:%M:%S")
     st.session_state.historial.append({
-        "Hora": datetime.now().strftime("%H:%M:%S"),
+        "Hora": hora_mexico,
         "Sector": sector,
         "Detalle": detalle,
         "Resultado": resultado
@@ -32,14 +35,14 @@ st.markdown("""
         font-weight: 700 !important;
     }
     .titulo-container {
-        background: linear-gradient(135deg, #020617, #090d1f, #111c38, #190f2e, #020617);
-        background-size: 200% 200%;
-        animation: neonAzulMoradoSincronizado 16s ease-in-out infinite;
+        background: linear-gradient(135deg, #020617 0%, #0f172a 25%, #1e3a8a 50%, #3b82f6 75%, #020617 100%);
+        background-size: 300% 300%;
+        animation: fondoAzulClaroOscuro 6s ease-in-out infinite;
         padding: 24px;
         border-radius: 12px;
         text-align: center;
         margin-bottom: 28px;
-        border: 3px solid #0f172a; 
+        border: 3px solid #1e3a8a; 
     }
     .titulo-texto {
         color: #FFFFFF !important;
@@ -53,17 +56,22 @@ st.markdown("""
         padding: 0 !important;
         display: inline-block;
     }
-    /* Neón reducido - ya no satura */
-    @keyframes neonAzulMoradoSincronizado {
-        0%, 100% {
+    /* Fondo oscuro -> claro y margen neón sincronizado */
+    @keyframes fondoAzulClaroOscuro {
+        0% {
             background-position: 0% 50%;
-            border-color: #1E3A8A; 
-            box-shadow: 0 0 6px rgba(30, 58, 138, 0.3);
+            border-color: #020617;
+            box-shadow: 0 0 10px rgba(2, 6, 23, 0.8), 0 0 20px rgba(30, 58, 138, 0.4);
         }
         50% {
             background-position: 100% 50%;
-            border-color: #334155; 
-            box-shadow: 0 0 6px rgba(51, 65, 85, 0.3);
+            border-color: #60a5fa;
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.9), 0 0 25px rgba(96, 165, 250, 0.6);
+        }
+        100% {
+            background-position: 0% 50%;
+            border-color: #020617;
+            box-shadow: 0 0 10px rgba(2, 6, 23, 0.8), 0 0 20px rgba(30, 58, 138, 0.4);
         }
     }
     div[data-testid="stNotificationV2"], 
@@ -258,7 +266,6 @@ elif sector in ["Construcción / Obras", "Construction / Building"]:
         st.info(txt["con_res2"].format(costo_m2_total))
         guardar_en_tabla(sector, f"{metros} m² x (${costo_material_m2}+${costo_obra_m2})", f"${total:.2f}")
 
-# === TABLA DE REGISTROS ===
 st.divider()
 st.subheader(txt["hist_titulo"])
 
