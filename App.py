@@ -10,10 +10,10 @@ st.markdown("""
         visibility: hidden !important;
     }
     
-    /* === BANNER DEL TÍTULO PROFESIONAL CON DEGRADADO TRIPLE Y BORDE NEÓN EN CICLO === */
+    /* === BANNER DEL TÍTULO PROFESIONAL CON DEGRADADO TRIPLE Y BORDE NEÓN OSCURO === */
     .titulo-container {
-        /* Degradado fluido que incluye los tres tonos oscuros neón */
-        background: linear-gradient(135deg, #0A192F, #1E0B36, #3B0D2A, #0A192F);
+        /* Degradado fluido con un rosa vino/negro extremadamente oscuro y discreto */
+        background: linear-gradient(135deg, #0A192F, #1E0B36, #2E081A, #0A192F);
         background-size: 400% 400%;
         animation: neonTripleGradientAnimation 10s ease infinite;
         padding: 24px;
@@ -33,7 +33,7 @@ st.markdown("""
         padding: 0 !important;
     }
     
-    /* Animación cíclica para Fondo, Borde y Resplandor (Azul -> Morado -> Rosa Morado -> Azul) */
+    /* Animación cíclica para Fondo, Borde y Resplandor (Azul -> Morado -> Rosa Vino Oscuro -> Azul) */
     @keyframes neonTripleGradientAnimation {
         0%, 100% {
             background-position: 0% 50%;
@@ -47,8 +47,8 @@ st.markdown("""
         }
         66% {
             background-position: 100% 50%;
-            border-color: #831843; /* Rosa morado oscuro neón */
-            box-shadow: 0 0 15px rgba(131, 24, 67, 0.6);
+            border-color: #5C0B2B; /* Rosa vino/oscuro neón (atenuado) */
+            box-shadow: 0 0 15px rgba(92, 11, 43, 0.5);
         }
     }
     
@@ -69,9 +69,17 @@ st.markdown("""
         background-color: transparent !important;
     }
 
-    .stNumberInput input, .stSelectbox div[data-baseweb="select"] {
+    /* === ALINEACIÓN AL CENTRO PARA LOS NÚMEROS === */
+    .stNumberInput input {
         color: #FFFFFF !important;
-        padding-right: 110px !important; /* Espacio extra a la derecha para que no tape los botones */
+        text-align: center !important; /* Fuerza a los números a colocarse en el centro */
+        padding-left: 80px !important;  /* Equilibrio visual izquierdo debido al espacio de botones */
+        padding-right: 90px !important; /* Espacio derecho óptimo para que no tape los botones */
+    }
+    
+    /* Centrado de la caja selectora de texto del menú */
+    .stSelectbox div[data-baseweb="select"] {
+        color: #FFFFFF !important;
     }
 
     /* === EFECTO DE INTERACCIÓN Y BRILLO NEÓN EN EL RECUADRO PRINCIPAL === */
@@ -83,13 +91,13 @@ st.markdown("""
         box-shadow: 0 0 12px rgba(43, 108, 176, 0.55) !important;
     }
     
-    /* === CONTROL ABSOLUTO HORIZONTAL COMPLETO (AMBOS BOTONES VISIBLES) === */
+    /* === CONTROL ABSOLUTO HORIZONTAL COMPLETO === */
     div[data-testid="stNumberInputStepUpAndDown"] {
         position: absolute !important;
         top: 0 !important;
         right: 12px !important;
         height: 100% !important;
-        width: 80px !important; /* Espacio óptimo para contener ambos botones a lo ancho */
+        width: 80px !important;
         display: block !important;
         background: transparent !important;
     }
