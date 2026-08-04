@@ -9,7 +9,6 @@ if "idioma" not in st.session_state:
 if "historial" not in st.session_state:
     st.session_state.historial = []
 
-# Zona horaria México Centro (León, GTO) UTC-6
 ZONA_MEXICO = timezone(timedelta(hours=-6))
 
 def guardar_en_tabla(sector, detalle, resultado):
@@ -26,15 +25,12 @@ def guardar_en_tabla(sector, detalle, resultado):
 st.markdown("""
     <style>
     #MainMenu, header, footer { visibility: hidden !important; }
-    
-    /* === FONDO DEGRADADO SUTIL AZUL MEDIO A MORADO MEDIO === */
     .stApp {
         background: linear-gradient(135deg, #1E40AF 0%, #3730A3 50%, #7C3AED 100%) !important;
     }
     [data-testid="stAppViewContainer"] {
         background: linear-gradient(135deg, #1E40AF 0%, #3730A3 50%, #7C3AED 100%) !important;
     }
-    
     p, label, span, div[data-testid="stMarkdownContainer"] p, 
     .st-emotion-cache-1gulkj5 p, [data-testid="stWidgetLabel"] p {
         color: #93C5FD !important;
@@ -62,7 +58,6 @@ st.markdown("""
         font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         font-weight: 800;
         font-size: 26px !important;
-        letter-spacing: -0.5px;
         margin: 0 !important;
         padding: 0 !important;
         display: inline-block;
@@ -83,46 +78,39 @@ st.markdown("""
     div[data-testid="stDataFrame"] td {
         border-color: #7BA7D1 !important;
     }
-    div[data-testid="stDataFrame"] th {
-        border-bottom: 2px solid #8AAED6 !important;
+    div[data-testid="stDataFrame"] th { border-bottom: 2px solid #8AAED6 !important; }
+    div[data-testid="stDataFrame"] td { border-bottom: 1px solid #6E9AC0 !important; border-right: 1px solid #6E9AC0 !important; }
+    div[data-testid="stNotificationV2"], div[role="alert"], div.stAlert {
+        background-image: none !important; background-color: transparent !important; border-radius: 8px !important;
     }
-    div[data-testid="stDataFrame"] td {
-        border-bottom: 1px solid #6E9AC0 !important;
-        border-right: 1px solid #6E9AC0 !important;
+    div[data-testid="stNotificationV2"]:has(svg[title="Success"]), div[role="alert"]:has(svg[title="Success"]) {
+        background: linear-gradient(135deg, #10B981, #064E3B) !important; border: 2px solid #10B981 !important; color: #FFF !important;
     }
-    div[data-testid="stNotificationV2"], 
-    div[role="alert"],
-    div.stAlert,
-    .element-container:has(div[role="alert"]) div[role="alert"] {
-        background-image: none !important;
-        background-color: transparent !important;
-        border-radius: 8px !important;
+    div[data-testid="stNotificationV2"]:has(svg[title="Info"]), div[role="alert"]:has(svg[title="Info"]) {
+        background: linear-gradient(135deg, #3B82F6, #1E3A8A) !important; border: 2px solid #3B82F6 !important; color: #FFF !important;
     }
-    div[data-testid="stNotificationV2"]:has(svg[title="Success"]),
-    div[role="alert"]:has(svg[title="Success"]),
-    .stAlert:has(svg[title="Success"]) {
-        background: linear-gradient(135deg, #10B981, #064E3B) !important;
-        border: 2px solid #10B981 !important;
-        color: #FFFFFF !important;
-    }
-    div[data-testid="stNotificationV2"]:has(svg[title="Info"]),
-    div[role="alert"]:has(svg[title="Info"]),
-    .stAlert:has(svg[title="Info"]) {
-        background: linear-gradient(135deg, #3B82F6, #1E3A8A) !important;
-        border: 2px solid #3B82F6 !important;
-        color: #FFFFFF !important;
-    }
-    .stAlert p, .stAlert div, div[role="alert"] p, div[role="alert"] div, div[data-testid="stNotificationContent"] span {
-        color: #FFFFFF !important;
-    }
+    .stAlert p, .stAlert div { color: #FFFFFF !important; }
+    
+    /* === CAMBIO SOLO DE MÁRGENES A AZUL CLARO INTENSO CON BRILLO SUTIL === */
     div[data-testid="stNumberInput"] > div:first-of-type, 
     div[data-testid="stSelectbox"] > div:first-of-type > div {
-        border: 2px solid #1A365D !important;
+        border: 2px solid #38BDF8 !important;
         border-radius: 8px !important;
         transition: all 0.25s ease-in-out !important;
         background: linear-gradient(135deg, #22252A, #0F1115) !important;
         position: relative !important;
     }
+    div[data-testid="stNumberInput"] > div:first-of-type:hover,
+    div[data-testid="stSelectbox"] > div:first-of-type > div:hover {
+        border-color: #7DD3FC !important;
+        box-shadow: 0 0 8px rgba(56, 189, 248, 0.35) !important;
+    }
+    div[data-testid="stNumberInput"] > div:first-of-type:focus-within,
+    div[data-testid="stSelectbox"] > div:first-of-type > div:focus-within {
+        border-color: #0EA5E9 !important;
+        box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25), 0 0 14px rgba(56, 189, 248, 0.5) !important;
+    }
+
     div[data-testid="stNumberInput"] div, 
     div[data-testid="stSelectbox"] div {
         border: none !important;
@@ -139,12 +127,6 @@ st.markdown("""
     div[data-baseweb="select"] div,
     .stSelectbox div[data-baseweb="select"] {
         color: #93C5FD !important;
-    }
-    div[data-testid="stNumberInput"] > div:first-of-type:hover,
-    div[data-testid="stNumberInput"] > div:first-of-type:focus-within,
-    div[data-testid="stSelectbox"] > div:first-of-type > div:hover,
-    div[data-testid="stSelectbox"] > div:first-of-type > div:focus-within {
-        border-color: #2B6CB0 !important;
     }
     div[data-testid="stNumberInputStepUpAndDown"] {
         position: absolute !important;
