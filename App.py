@@ -1,6 +1,6 @@
 import streamlit as st
 
-# Configuración de página e inyección de CSS con máxima especificidad
+# Configuración de página e inyección de CSS avanzado
 st.set_page_config(page_title="Calculadora por Sectores", layout="centered")
 
 st.markdown("""
@@ -51,13 +51,11 @@ st.markdown("""
     }
     
     /* === ESTILO PARA EL RECUADRO FÍSICO CON DEGRADADO GRIS OSCURO A NEGRO === */
-    /* Modifica el fondo de los recuadros de st.number_input y st.selectbox */
     div[data-testid="stNumberInput"] > div:first-of-type, 
     div[data-testid="stSelectbox"] > div:first-of-type > div {
         border: 2px solid #1A365D !important;
         border-radius: 8px !important;
         transition: all 0.25s ease-in-out !important;
-        /* Degradado de gris oscuro a negro para quitar el fondo plano gris molesto */
         background: linear-gradient(135deg, #22252A, #0F1115) !important;
     }
 
@@ -68,7 +66,6 @@ st.markdown("""
         background-color: transparent !important;
     }
 
-    /* Asegura que el texto que escribe el usuario e iconos nativos tengan el color correcto sobre el nuevo fondo */
     .stNumberInput input, .stSelectbox div[data-baseweb="select"] {
         color: #FFFFFF !important;
     }
@@ -82,41 +79,41 @@ st.markdown("""
         box-shadow: 0 0 12px rgba(43, 108, 176, 0.55) !important;
     }
     
-    /* === AJUSTE DE LOS BOTONES MÁS Y MENOS === */
+    /* === NUEVO DISEÑO FUSIONADO PARA LOS BOTONES MÁS Y MENOS === */
+    /* Contenedor vertical de botones: se elimina el fondo gris interno y el gap a 0px */
     div[data-testid="stNumberInputStepUpAndDown"] {
         height: 100% !important;
         display: flex !important;
         flex-direction: column !important;
-        justify-content: space-between !important;
+        justify-content: stretch !important;
         padding: 0 !important;
-        gap: 2px !important;
-        background-color: transparent !important;
+        gap: 0px !important; /* Fusiona por completo ambas celdas eliminando espacios vacíos */
+        overflow: hidden !important;
+        border-radius: 0px 6px 6px 0px !important;
+        /* Degradado de dos tonos de azul que cubre verticalmente todo el bloque de botones */
+        background: linear-gradient(to bottom, #2B6CB0, #1A365D) !important;
     }
 
+    /* Estilo estructural base para los botones individuales */
     button[data-testid="stNumberInputStepUp"], 
     button[data-testid="stNumberInputStepDown"] {
-        height: 100% !important;
+        height: 50% !important; /* Cada botón toma exactamente la mitad del alto */
         flex-grow: 1 !important;
         margin: 0 !important;
-        border-radius: 0px 6px 6px 0px !important;
+        border-radius: 0px !important; /* Quitamos bordes internos individuales */
         border: none !important;
         color: white !important;
+        /* Hacemos el fondo del botón transparente para que se transparente el degradado de abajo */
+        background-color: transparent !important; 
+        transition: background-color 0.2s ease-in-out !important;
     }
 
-    /* BOTÓN MENOS (-): Azul Oscuro */
-    button[data-testid="stNumberInputStepDown"] {
-        background-color: #1A365D !important;
+    /* Efectos hover sutiles para oscurecer ligeramente la zona donde está el cursor */
+    button[data-testid="stNumberInputStepUp"]:hover {
+        background-color: rgba(255, 255, 255, 0.1) !important;
     }
     button[data-testid="stNumberInputStepDown"]:hover {
-        background-color: #10243F !important;
-    }
-
-    /* BOTÓN MÁS (+): Azul Más Claro / Eléctrico */
-    button[data-testid="stNumberInputStepUp"] {
-        background-color: #2B6CB0 !important;
-    }
-    button[data-testid="stNumberInputStepUp"]:hover {
-        background-color: #1D4ED8 !important;
+        background-color: rgba(0, 0, 0, 0.2) !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -147,7 +144,7 @@ if sector == "Tecnología / Software":
         st.success(f"Costo Total Mensual: ${total:.2f}")
 
 elif sector == "Manufactura":
-    st.subheader("⚙️ Sector Manufactura (Cálculo de Producción)")
+    st.subheader("⚙️ Sector Manufactura (Cálculo de Production)")
     unidades = st.number_input("Unidades a producir:", min_value=1, value=1000, step=10)
     costo_material = st.number_input("Costo de material por unidad ($):", min_value=0.0, value=5.5, step=0.1)
     costo_operativo_fijo = st.number_input("Costos operativos fijos ($):", min_value=0.0, value=2000.0, step=50.0)
@@ -170,3 +167,4 @@ elif sector == "Comercio / Retail":
         ganancia_neta = precio_base - costo_producto
         st.success(f"Precio de Venta al Público: ${precio_final:.2f}")
         st.info(f"Ganancia neta por producto: ${ganancia_neta:.2f}")
+ 
