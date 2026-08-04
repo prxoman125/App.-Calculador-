@@ -16,18 +16,22 @@ st.markdown("""
     
     /* === BANNER DEL TÍTULO PROFESIONAL CON FONDO OSCURO DEGRADADO AZUL/MORADO === */
     .titulo-container {
-        /* Fondo con degradado fluido entre azul muy oscuro y morado profundo */
-        background: linear-gradient(135deg, #020617, #0F172A, #1E3A8A, #2E1065, #0B0214, #581C87, #020617);
-        background-size: 400% 400%;
-        
-        /* Animación fluida de cambio de fondo, borde y brillo */
-        animation: neonAzulMoradoSincronizado 10s ease-in-out infinite;
-        
+        /* Tonos oscuros y sutiles entre azul marino y morado noche */
+        background: linear-gradient(135deg, #020617, #090d1f, #111c38, #190f2e, #020617);
+        background-size: 200% 200%;
+  
+        /* Animación más lenta y suave */
+        animation: neonAzulMoradoSincronizado 16s ease-in-out infinite;
+  
         padding: 24px;
         border-radius: 12px;
         text-align: center;
         margin-bottom: 28px;
-        border: 3px solid #1E3A8A;
+  
+  /* Borde más oscuro y sobrio */
+  border: 3px solid #0f172a; 
+}
+
     }
     
     /* === ANIMACIÓN LIGERA Y BRILLANTE DEGRADADA PARA LAS LETRAS === */
