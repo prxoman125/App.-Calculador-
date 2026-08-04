@@ -10,11 +10,15 @@ st.markdown("""
         visibility: hidden !important;
     }
     
-    /* === BANNER DEL TÍTULO PROFESIONAL CON DEGRADADO AZUL-MORADO OSCURO === */
+    /* === BANNER DEL TÍTULO PROFESIONAL CON FONDO ULTRA OSCURO (EVITA INTERFERENCIAS) === */
     .titulo-container {
-        background: linear-gradient(135deg, #0A192F, #1E3A8A, #3B0764, #1E0B36, #0A192F);
+        /* Tonos llevados casi al negro absoluto para dar un contraste perfecto a las letras brillantes */
+        background: linear-gradient(135deg, #020617, #080312, #04070F, #0E0214, #020617);
         background-size: 300% 300%;
+        
+        /* Una única animación controla la velocidad del fondo, borde y brillo simultáneamente */
         animation: neonAzulMoradoSincronizado 12s ease-in-out infinite;
+        
         padding: 24px;
         border-radius: 12px;
         text-align: center;
@@ -22,7 +26,7 @@ st.markdown("""
         border: 3px solid #1E3A8A;
     }
     
-    /* === NUEVA ANIMACIÓN LIGERA Y BRILLANTE DEGRADADA PARA LAS LETRAS === */
+    /* === ANIMACIÓN LIGERA Y BRILLANTE DEGRADADA PARA LAS LETRAS === */
     .titulo-texto {
         /* Degradado de tonos brillantes premium para las letras */
         background: linear-gradient(to right, #3B82F6, #06B6D4, #8B5CF6, #EC4899, #3B82F6);
@@ -52,17 +56,17 @@ st.markdown("""
         100% { background-position: 300% center; }
     }
     
-    /* Animación del ciclo continuo de la CAJA (Fondo oscuro, margen y brillo neón) */
+    /* Animación del ciclo continuo de la CAJA (Fondo oscuro, margen y brillo neón sutil) */
     @keyframes neonAzulMoradoSincronizado {
         0%, 100% {
             background-position: 0% 50%;
-            border-color: #1E3A8A; 
-            box-shadow: 0 0 25px rgba(30, 58, 138, 0.85);
+            border-color: #1A365D; /* Azul muy oscuro sutil */
+            box-shadow: 0 0 25px rgba(26, 54, 93, 0.7);
         }
         50% {
             background-position: 100% 50%;
-            border-color: #6D28D9; 
-            box-shadow: 0 0 25px rgba(109, 40, 217, 0.85);
+            border-color: #4C1D95; /* Morado muy oscuro sutil */
+            box-shadow: 0 0 25px rgba(76, 29, 149, 0.7);
         }
     }
     
@@ -235,8 +239,8 @@ elif sector == "Comercio / Retail":
     
     if st.button("Calcular Precio de Venta"):
         precio_base = costo_producto * (1 + margen_ganancia / 100)
-        precio_final = precio_base * (1 + impuesto / 100)
-        ganancia_neta = precio_base - costo_producto
-        st.success(f"Precio de Venta al Público: ${precio_final:.2f}")
-        st.info(f"Ganancia neta por producto: ${ganancia_neta:.2f}")
- 
+ precio_final = precio_base * (1 + impuesto / 100)
+ganancia_neta = precio_final - costo_producto
+
+st.success(f"Precio de Venta al Público: ${precio_final:.2f}")
+st.info(f"Ganancia neta por producto: ${ganancia_neta:.2f}")
