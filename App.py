@@ -25,40 +25,44 @@ def guardar_en_tabla(sector, detalle, resultado):
 st.markdown("""
     <style>
     #MainMenu, header, footer { visibility: hidden !important; }
+    
+    /* === FONDO MONOCROMÁTICO NEGRO - GRIS === */
     .stApp {
-        background: linear-gradient(135deg, #1E3A8A 0%, #312E81 50%, #581C87 100%) !important;
+        background: linear-gradient(135deg, #000000 0%, #1A1A1A 45%, #3A3A3A 100%) !important;
     }
     [data-testid="stAppViewContainer"] {
-        background: linear-gradient(135deg, #1E3A8A 0%, #312E81 50%, #581C87 100%) !important;
+        background: linear-gradient(135deg, #000000 0%, #1A1A1A 45%, #3A3A3A 100%) !important;
     }
+    
     p, label, span, div[data-testid="stMarkdownContainer"] p, 
     .st-emotion-cache-1gulkj5 p, [data-testid="stWidgetLabel"] p {
-        color: #93C5FD !important;
+        color: #E5E7EB !important;
     }
-    /* === TÍTULOS DE APARTADOS EN RECUADRO LILA NEÓN CON MORADO DEGRADADO SEMI OSCURO === */
+    
+    /* === TÍTULOS DE APARTADOS MONOCROMÁTICO === */
     h3, [data-testid="stSubheader"] {
-        background: linear-gradient(135deg, #3B1F6E 0%, #4C1D95 40%, #5B21B6 100%) !important;
-        border: 2px solid #C084FC !important;
+        background: linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 50%, #4B5563 100%) !important;
+        border: 2px solid #D1D5DB !important;
         border-radius: 10px !important;
         padding: 12px 16px !important;
-        color: #E9D5FF !important;
+        color: #FFFFFF !important;
         font-weight: 800 !important;
-        box-shadow: 0 0 0 2px rgba(192, 132, 252, 0.2), 0 0 14px rgba(168, 85, 247, 0.55), 0 0 28px rgba(168, 85, 247, 0.3) !important;
+        box-shadow: 0 0 0 2px rgba(255,255,255,0.15), 0 0 14px rgba(255,255,255,0.25), 0 0 28px rgba(255,255,255,0.1) !important;
     }
     [data-testid="stSubheader"] div, [data-testid="stSubheader"] p {
-        color: #E9D5FF !important;
+        color: #FFFFFF !important;
     }
+    
     .titulo-container {
-      background: linear-gradient(135deg, #00f0ff 0%, #8b00ff 50%, #0033cc 100%);
+      background: linear-gradient(135deg, #000000 0%, #3A3A3A 50%, #9CA3AF 100%);
       background-size: 300% 300%;
       animation: fondoAzulClaroOscuro 6s ease-in-out infinite;
       padding: 24px;
       border-radius: 12px;
       text-align: center;
       margin: 0 !important;
-      margin-bottom: 0px !important;
-      border: none !important;
-      box-shadow: none !important;
+      border: 2px solid #E5E7EB !important;
+      box-shadow: 0 0 12px rgba(255,255,255,0.3) !important;
     }
     .titulo-texto {
         color: #FFFFFF !important;
@@ -76,8 +80,9 @@ st.markdown("""
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
+    
     div[data-testid="stDataFrame"] {
-        border: 1px solid #7BA7D1 !important;
+        border: 1px solid #9CA3AF !important;
         border-radius: 8px !important;
     }
     div[data-testid="stDataFrame"] table,
@@ -85,47 +90,51 @@ st.markdown("""
     div[data-testid="stDataFrame"] tbody,
     div[data-testid="stDataFrame"] th,
     div[data-testid="stDataFrame"] td {
-        border-color: #7BA7D1 !important;
+        border-color: #6B7280 !important;
     }
-    div[data-testid="stDataFrame"] th { border-bottom: 2px solid #8AAED6 !important; }
-    div[data-testid="stDataFrame"] td { border-bottom: 1px solid #6E9AC0 !important; border-right: 1px solid #6E9AC0 !important; }
+    div[data-testid="stDataFrame"] th { border-bottom: 2px solid #9CA3AF !important; color: #FFFFFF !important; }
+    div[data-testid="stDataFrame"] td { border-bottom: 1px solid #4B5563 !important; border-right: 1px solid #4B5563 !important; color: #E5E7EB !important; }
+    
     div[data-testid="stNotificationV2"], div[role="alert"], div.stAlert {
         background-image: none !important; background-color: transparent !important; border-radius: 10px !important;
     }
+    /* === RECUADROS RESULTADOS MONOCROMÁTICOS NOTABLES + MARGEN NEÓN BLANCO === */
     div[data-testid="stNotificationV2"]:has(svg[title="Success"]),
     div[role="alert"]:has(svg[title="Success"]),
     .stAlert:has(svg[title="Success"]) {
-        background: linear-gradient(135deg, #10B981 0%, #059669 50%, #047857 100%) !important;
-        border: 2px solid #34D399 !important;
-        box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.25), 0 0 14px rgba(16, 185, 129, 0.6), 0 0 28px rgba(16, 185, 129, 0.3) !important;
+        background: linear-gradient(135deg, #262626 0%, #1A1A1A 60%, #0A0A0A 100%) !important;
+        border: 2px solid #FFFFFF !important;
+        box-shadow: 0 0 0 2px rgba(255,255,255,0.2), 0 0 14px rgba(255,255,255,0.4), 0 0 28px rgba(255,255,255,0.15) !important;
         color: #FFFFFF !important;
     }
     div[data-testid="stNotificationV2"]:has(svg[title="Info"]),
     div[role="alert"]:has(svg[title="Info"]),
     .stAlert:has(svg[title="Info"]) {
-        background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 50%, #1E40AF 100%) !important;
-        border: 2px solid #60A5FA !important;
-        box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.25), 0 0 14px rgba(59, 130, 246, 0.6), 0 0 28px rgba(59, 130, 246, 0.35) !important;
+        background: linear-gradient(135deg, #404040 0%, #2E2E2E 50%, #1A1A1A 100%) !important;
+        border: 2px solid #E5E7EB !important;
+        box-shadow: 0 0 0 2px rgba(229,231,235,0.2), 0 0 14px rgba(255,255,255,0.3), 0 0 28px rgba(255,255,255,0.1) !important;
         color: #FFFFFF !important;
     }
-    .stAlert p, .stAlert div { color: #FFFFFF !important; font-weight: 600 !important; }
+    .stAlert p, .stAlert div, div[role="alert"] p, div[role="alert"] div, div[data-testid="stNotificationContent"] span { color: #FFFFFF !important; font-weight: 600 !important; }
+    
+    /* === MÁRGENES RECUADROS ENTRADA BLANCO / GRIS CLARO CON BRILLO BLANCO === */
     div[data-testid="stNumberInput"] > div:first-of-type, 
     div[data-testid="stSelectbox"] > div:first-of-type > div {
-        border: 2px solid #38BDF8 !important;
+        border: 2px solid #D1D5DB !important;
         border-radius: 8px !important;
         transition: all 0.25s ease-in-out !important;
-        background: linear-gradient(135deg, #22252A, #0F1115) !important;
+        background: linear-gradient(135deg, #1E1E1E, #0F0F0F) !important;
         position: relative !important;
     }
     div[data-testid="stNumberInput"] > div:first-of-type:hover,
     div[data-testid="stSelectbox"] > div:first-of-type > div:hover {
-        border-color: #7DD3FC !important;
-        box-shadow: 0 0 8px rgba(56, 189, 248, 0.35) !important;
+        border-color: #FFFFFF !important;
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.35) !important;
     }
     div[data-testid="stNumberInput"] > div:first-of-type:focus-within,
     div[data-testid="stSelectbox"] > div:first-of-type > div:focus-within {
-        border-color: #0EA5E9 !important;
-        box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25), 0 0 14px rgba(56, 189, 248, 0.5) !important;
+        border-color: #FFFFFF !important;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2), 0 0 14px rgba(255, 255, 255, 0.45) !important;
     }
     div[data-testid="stNumberInput"] div, 
     div[data-testid="stSelectbox"] div {
@@ -133,7 +142,7 @@ st.markdown("""
         background-color: transparent !important;
     }
     .stNumberInput input {
-        color: #93C5FD !important;
+        color: #F3F4F6 !important;
         text-align: center !important;
         padding-left: 80px !important;
         padding-right: 90px !important;
@@ -142,7 +151,7 @@ st.markdown("""
     div[data-baseweb="select"] span, 
     div[data-baseweb="select"] div,
     .stSelectbox div[data-baseweb="select"] {
-        color: #93C5FD !important;
+        color: #F3F4F6 !important;
     }
     div[data-testid="stNumberInputStepUpAndDown"] {
         position: absolute !important;
@@ -163,7 +172,7 @@ st.markdown("""
         margin: 0 !important;
         border-radius: 4px !important;
         border: none !important;
-        color: #A0AEC0 !important;
+        color: #9CA3AF !important;
         background-color: transparent !important;
         display: flex !important;
         align-items: center !important;
@@ -171,6 +180,17 @@ st.markdown("""
     }
     button[data-testid="stNumberInputStepDown"] { left: 6px !important; }
     button[data-testid="stNumberInputStepUp"] { right: 6px !important; }
+    button[data-testid="stNumberInputStepUp"]:hover, 
+    button[data-testid="stNumberInputStepDown"]:hover {
+        color: #FFFFFF !important;
+        background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+    button[data-testid="stNumberInputStepUp"]:active, 
+    button[data-testid="stNumberInputStepDown"]:active {
+        background-color: #374151 !important;
+        color: #FFFFFF !important;
+        transform: translateY(-50%) scale(0.92) !important;
+    }
     </style>
 """, unsafe_allow_html=True)
 
