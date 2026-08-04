@@ -26,6 +26,15 @@ def guardar_en_tabla(sector, detalle, resultado):
 st.markdown("""
     <style>
     #MainMenu, header, footer { visibility: hidden !important; }
+    
+    /* === FONDO DEGRADADO NEGRO Y AZUL OSCURO === */
+    .stApp {
+        background: linear-gradient(135deg, #000000 0%, #020617 40%, #0f172a 100%) !important;
+    }
+    [data-testid="stAppViewContainer"] {
+        background: linear-gradient(135deg, #000000 0%, #020617 40%, #0f172a 100%) !important;
+    }
+    
     p, label, span, div[data-testid="stMarkdownContainer"] p, 
     .st-emotion-cache-1gulkj5 p, [data-testid="stWidgetLabel"] p {
         color: #93C5FD !important;
@@ -63,7 +72,6 @@ st.markdown("""
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-    /* === SOLO LÍNEAS DE TABLA AZUL GRISÁCEO === */
     div[data-testid="stDataFrame"] {
         border: 1px solid #7BA7D1 !important;
         border-radius: 8px !important;
