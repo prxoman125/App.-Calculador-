@@ -12,19 +12,13 @@ st.markdown("""
     
     /* === BANNER DEL TÍTULO PROFESIONAL CON DEGRADADO Y BORDE NEÓN OSCURO === */
     .titulo-container {
-        /* Degradado de fondo con tonos más oscuros para que resalte más la transición */
         background: linear-gradient(135deg, #0A192F, #120D24, #1A0B2E, #0A192F);
         background-size: 300% 300%;
-        
-        /* Animación unificada para el fondo y el borde */
         animation: neonGradientAnimation 8s ease infinite;
-        
         padding: 24px;
         border-radius: 12px;
         text-align: center;
         margin-bottom: 28px;
-        
-        /* Borde inicial grueso de 3px */
         border: 3px solid #1A365D;
     }
     
@@ -38,16 +32,15 @@ st.markdown("""
         padding: 0 !important;
     }
     
-    /* Animación fluida para fondo, borde y sombra (Azul oscuro neón <-> Morado oscuro neón) */
     @keyframes neonGradientAnimation {
         0% {
             background-position: 0% 50%;
-            border-color: #1A365D; /* Azul oscuro neón */
+            border-color: #1A365D;
             box-shadow: 0 0 15px rgba(26, 54, 93, 0.6);
         }
         50% {
             background-position: 100% 50%;
-            border-color: #4C1D95; /* Morado oscuro neón */
+            border-color: #4C1D95;
             box-shadow: 0 0 15px rgba(76, 29, 149, 0.6);
         }
         100% {
@@ -57,18 +50,27 @@ st.markdown("""
         }
     }
     
-    /* === ESTILO DEFINITIVO PARA EL RECUADRO FISICO (SÓLO LA CAJA) === */
+    /* === ESTILO PARA EL RECUADRO FÍSICO CON DEGRADADO GRIS OSCURO A NEGRO === */
+    /* Modifica el fondo de los recuadros de st.number_input y st.selectbox */
     div[data-testid="stNumberInput"] > div:first-of-type, 
     div[data-testid="stSelectbox"] > div:first-of-type > div {
         border: 2px solid #1A365D !important;
         border-radius: 8px !important;
         transition: all 0.25s ease-in-out !important;
-        background-color: transparent !important;
+        /* Degradado de gris oscuro a negro para quitar el fondo plano gris molesto */
+        background: linear-gradient(135deg, #22252A, #0F1115) !important;
     }
 
+    /* Quita los fondos grises y bordes que Streamlit superpone de forma interna */
     div[data-testid="stNumberInput"] div, 
     div[data-testid="stSelectbox"] div {
         border: none !important;
+        background-color: transparent !important;
+    }
+
+    /* Asegura que el texto que escribe el usuario e iconos nativos tengan el color correcto sobre el nuevo fondo */
+    .stNumberInput input, .stSelectbox div[data-baseweb="select"] {
+        color: #FFFFFF !important;
     }
 
     /* === EFECTO DE INTERACCIÓN Y BRILLO NEÓN (SÓLO RECUADRO) === */
@@ -88,6 +90,7 @@ st.markdown("""
         justify-content: space-between !important;
         padding: 0 !important;
         gap: 2px !important;
+        background-color: transparent !important;
     }
 
     button[data-testid="stNumberInputStepUp"], 
