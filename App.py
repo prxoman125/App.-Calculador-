@@ -35,9 +35,18 @@ st.markdown("""
     .st-emotion-cache-1gulkj5 p, [data-testid="stWidgetLabel"] p {
         color: #93C5FD !important;
     }
+    /* === TÍTULOS DE APARTADOS EN RECUADRO LILA NEÓN CON MORADO DEGRADADO SEMI OSCURO === */
     h3, [data-testid="stSubheader"] {
-        color: #BFDBFE !important;
-        font-weight: 700 !important;
+        background: linear-gradient(135deg, #3B1F6E 0%, #4C1D95 40%, #5B21B6 100%) !important;
+        border: 2px solid #C084FC !important;
+        border-radius: 10px !important;
+        padding: 12px 16px !important;
+        color: #E9D5FF !important;
+        font-weight: 800 !important;
+        box-shadow: 0 0 0 2px rgba(192, 132, 252, 0.2), 0 0 14px rgba(168, 85, 247, 0.55), 0 0 28px rgba(168, 85, 247, 0.3) !important;
+    }
+    [data-testid="stSubheader"] div, [data-testid="stSubheader"] p {
+        color: #E9D5FF !important;
     }
     .titulo-container {
       background: linear-gradient(135deg, #00f0ff 0%, #8b00ff 50%, #0033cc 100%);
@@ -80,11 +89,9 @@ st.markdown("""
     }
     div[data-testid="stDataFrame"] th { border-bottom: 2px solid #8AAED6 !important; }
     div[data-testid="stDataFrame"] td { border-bottom: 1px solid #6E9AC0 !important; border-right: 1px solid #6E9AC0 !important; }
-    
     div[data-testid="stNotificationV2"], div[role="alert"], div.stAlert {
         background-image: none !important; background-color: transparent !important; border-radius: 10px !important;
     }
-    /* === RECUADROS RESULTADOS MÁS NOTABLES + MARGEN NEÓN === */
     div[data-testid="stNotificationV2"]:has(svg[title="Success"]),
     div[role="alert"]:has(svg[title="Success"]),
     .stAlert:has(svg[title="Success"]) {
@@ -102,7 +109,6 @@ st.markdown("""
         color: #FFFFFF !important;
     }
     .stAlert p, .stAlert div { color: #FFFFFF !important; font-weight: 600 !important; }
-    
     div[data-testid="stNumberInput"] > div:first-of-type, 
     div[data-testid="stSelectbox"] > div:first-of-type > div {
         border: 2px solid #38BDF8 !important;
@@ -165,17 +171,6 @@ st.markdown("""
     }
     button[data-testid="stNumberInputStepDown"] { left: 6px !important; }
     button[data-testid="stNumberInputStepUp"] { right: 6px !important; }
-    button[data-testid="stNumberInputStepUp"]:hover, 
-    button[data-testid="stNumberInputStepDown"]:hover {
-        color: #FFFFFF !important;
-        background-color: rgba(255, 255, 255, 0.05) !important;
-    }
-    button[data-testid="stNumberInputStepUp"]:active, 
-    button[data-testid="stNumberInputStepDown"]:active {
-        background-color: #1A365D !important;
-        color: #FFFFFF !important;
-        transform: translateY(-50%) scale(0.92) !important;
-    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -279,4 +274,4 @@ if st.session_state.historial:
         st.session_state.historial = []
         st.rerun()
 else:
-    st.info(txt["hist_vacio"]) 
+    st.info(txt["hist_vacio"])
