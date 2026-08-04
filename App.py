@@ -9,18 +9,18 @@ if "idioma" not in st.session_state:
 if "historial" not in st.session_state:
     st.session_state.historial = []
 
-# Zona horaria México Centro (León, GTO) UTC-6
 ZONA_MEXICO = timezone(timedelta(hours=-6))
 
 def guardar_en_tabla(sector, detalle, resultado):
     if len(st.session_state.historial) >= 15:
         st.session_state.historial.pop(0)
     hora_mexico = datetime.now(ZONA_MEXICO).strftime("%H:%M:%S")
+    # Guardado interno neutro para poder traducir columnas
     st.session_state.historial.append({
-        "Hora": hora_mexico,
-        "Sector": sector,
-        "Detalle": detalle,
-        "Resultado": resultado
+        "_hora": hora_mexico,
+        "_sector": sector,
+        "_detalle": detalle,
+        "_resultado": resultado
     })
 
 st.markdown("""
@@ -53,7 +53,6 @@ st.markdown("""
         font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         font-weight: 800;
         font-size: 26px !important;
-        letter-spacing: -0.5px;
         margin: 0 !important;
         padding: 0 !important;
         display: inline-block;
@@ -63,100 +62,57 @@ st.markdown("""
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-    div[data-testid="stNotificationV2"], 
-    div[role="alert"],
-    div.stAlert,
-    .element-container:has(div[role="alert"]) div[role="alert"] {
-        background-image: none !important;
-        background-color: transparent !important;
-        border-radius: 8px !important;
+    /* === TABLA - LÍNEAS AZUL CLARO GRISÁCEO === */
+    div[data-testid="stDataFrame"] table, 
+    div[data-testid="stDataFrame"] thead, 
+    div[data-testid="stDataFrame"] tbody, 
+    div[data-testid="stDataFrame"] th, 
+    div[data-testid="stDataFrame"] td {
+        border-color: #7BA7D1 !important;
     }
-    div[data-testid="stNotificationV2"]:has(svg[title="Success"]),
-    div[role="alert"]:has(svg[title="Success"]),
-    .stAlert:has(svg[title="Success"]) {
-        background: linear-gradient(135deg, #10B981, #064E3B) !important;
-        border: 2px solid #10B981 !important;
-        color: #FFFFFF !important;
+    div[data-testid="stDataFrame"] th {
+        border-bottom: 2px solid #8AAED6 !important;
+        color: #BFDBFE !important;
     }
-    div[data-testid="stNotificationV2"]:has(svg[title="Info"]),
-    div[role="alert"]:has(svg[title="Info"]),
-    .stAlert:has(svg[title="Info"]) {
-        background: linear-gradient(135deg, #3B82F6, #1E3A8A) !important;
-        border: 2px solid #3B82F6 !important;
-        color: #FFFFFF !important;
+    div[data-testid="stDataFrame"] td {
+        border-bottom: 1px solid #6E9AC0 !important;
+        border-right: 1px solid #6E9AC0 !important;
     }
-    .stAlert p, .stAlert div, div[role="alert"] p, div[role="alert"] div, div[data-testid="stNotificationContent"] span {
-        color: #FFFFFF !important;
+    div[data-testid="stDataFrame"] div[data-testid="stDataFrameResizable"] {
+        border-color: #7BA7D1 !important;
     }
+
+    div[data-testid="stNotificationV2"], div[role="alert"], div.stAlert {
+        background-image: none !important; background-color: transparent !important; border-radius: 8px !important;
+    }
+    div[data-testid="stNotificationV2"]:has(svg[title="Success"]), div[role="alert"]:has(svg[title="Success"]) {
+        background: linear-gradient(135deg, #10B981, #064E3B) !important; border: 2px solid #10B981 !important; color: #FFF !important;
+    }
+    div[data-testid="stNotificationV2"]:has(svg[title="Info"]), div[role="alert"]:has(svg[title="Info"]) {
+        background: linear-gradient(135deg, #3B82F6, #1E3A8A) !important; border: 2px solid #3B82F6 !important; color: #FFF !important;
+    }
+    .stAlert p, .stAlert div { color: #FFFFFF !important; }
     div[data-testid="stNumberInput"] > div:first-of-type, 
     div[data-testid="stSelectbox"] > div:first-of-type > div {
-        border: 2px solid #1A365D !important;
-        border-radius: 8px !important;
-        transition: all 0.25s ease-in-out !important;
+        border: 2px solid #1A365D !important; border-radius: 8px !important;
         background: linear-gradient(135deg, #22252A, #0F1115) !important;
-        position: relative !important;
-    }
-    div[data-testid="stNumberInput"] div, 
-    div[data-testid="stSelectbox"] div {
-        border: none !important;
-        background-color: transparent !important;
     }
     .stNumberInput input {
-        color: #93C5FD !important;
-        text-align: center !important;
-        padding-left: 80px !important;
-        padding-right: 90px !important;
-        font-weight: 600 !important;
+        color: #93C5FD !important; text-align: center !important;
+        padding-left: 80px !important; padding-right: 90px !important; font-weight: 600 !important;
     }
-    div[data-baseweb="select"] span, 
-    div[data-baseweb="select"] div,
-    .stSelectbox div[data-baseweb="select"] {
-        color: #93C5FD !important;
-    }
-    div[data-testid="stNumberInput"] > div:first-of-type:hover,
-    div[data-testid="stNumberInput"] > div:first-of-type:focus-within,
-    div[data-testid="stSelectbox"] > div:first-of-type > div:hover,
-    div[data-testid="stSelectbox"] > div:first-of-type > div:focus-within {
-        border-color: #2B6CB0 !important;
-    }
+    div[data-baseweb="select"] span, div[data-baseweb="select"] div { color: #93C5FD !important; }
     div[data-testid="stNumberInputStepUpAndDown"] {
-        position: absolute !important;
-        top: 0 !important;
-        right: 12px !important;
-        height: 100% !important;
-        width: 80px !important;
-        display: block !important;
-        background: transparent !important;
+        position: absolute !important; top: 0 !important; right: 12px !important;
+        height: 100% !important; width: 80px !important; background: transparent !important;
     }
-    button[data-testid="stNumberInputStepUp"], 
-    button[data-testid="stNumberInputStepDown"] {
-        position: absolute !important;
-        top: 50% !important;
-        transform: translateY(-50%) !important;
-        height: 24px !important;
-        width: 24px !important;
-        margin: 0 !important;
-        border-radius: 4px !important;
-        border: none !important;
-        color: #A0AEC0 !important;
-        background-color: transparent !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
+    button[data-testid="stNumberInputStepUp"], button[data-testid="stNumberInputStepDown"] {
+        position: absolute !important; top: 50% !important; transform: translateY(-50%) !important;
+        height: 24px !important; width: 24px !important; border: none !important;
+        color: #A0AEC0 !important; background: transparent !important;
     }
     button[data-testid="stNumberInputStepDown"] { left: 6px !important; }
     button[data-testid="stNumberInputStepUp"] { right: 6px !important; }
-    button[data-testid="stNumberInputStepUp"]:hover, 
-    button[data-testid="stNumberInputStepDown"]:hover {
-        color: #FFFFFF !important;
-        background-color: rgba(255, 255, 255, 0.05) !important;
-    }
-    button[data-testid="stNumberInputStepUp"]:active, 
-    button[data-testid="stNumberInputStepDown"]:active {
-        background-color: #1A365D !important;
-        color: #FFFFFF !important;
-        transform: translateY(-50%) scale(0.92) !important;
-    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -172,7 +128,8 @@ TEXTOS = {
         "com_sub": "🛍️ Sector Comercio (Cálculo de Margen y Venta)", "com_c": "Costo de adquisición del producto ($):", "com_m": "Margen de ganancia deseado (%):", "com_i": "Impuesto local / IVA (%):", "com_btn": "Calcular Precio de Venta", "com_res1": "Precio de Venta al Público: ${:.2f}", "com_res2": "Ganancia neta por producto: ${:.2f}",
         "sal_sub": "🏥 Sector Salud (Cálculo de Consultas y Procedimientos)", "sal_c": "Número de consultas estimadas:", "sal_p": "Precio base por consulta ($):", "sal_o": "Costos operativos por consulta ($):", "sal_btn": "Calcular Rentabilidad Clínica", "sal_res1": "Ingresos Brutos Estimados: ${:.2f}", "sal_res2": "Ganancia Neta Estimada: ${:.2f}",
         "con_sub": "🏗️ Sector Construcción (Cálculo de Presupuesto por m²)", "con_m": "Metros cuadrados (m²):", "con_c": "Costo de materiales por m² ($):", "con_o": "Costo de mano de obra por m² ($):", "con_btn": "Calcular Presupuesto Obra", "con_res1": "Presupuesto Total Estimado: ${:.2f}", "con_res2": "Costo Total por m²: ${:.2f}",
-        "hist_titulo": "📊 Tabla de Registros (1 mínimo / 15 máximo)", "hist_vacio": "Aún no hay registros.", "btn_borrar": "🗑️ Borrar todas las tablas"
+        "hist_titulo": "📊 Tabla de Registros (1 mínimo / 15 máximo)", "hist_vacio": "Aún no hay registros.", "btn_borrar": "🗑️ Borrar todas las tablas",
+        "col_hora": "Hora", "col_sector": "Sector", "col_detalle": "Detalle", "col_resultado": "Resultado"
     },
     "English": {
         "titulo": "Interactive Sector Calculator",
@@ -185,7 +142,8 @@ TEXTOS = {
         "com_sub": "🛍️ Retail Sector (Margin & Sale Calculation)", "com_c": "Product acquisition cost ($):", "com_m": "Desired profit margin (%):", "com_i": "Local tax / VAT (%):", "com_btn": "Calculate Selling Price", "com_res1": "Public Retail Price: ${:.2f}", "com_res2": "Net profit per product: ${:.2f}",
         "sal_sub": "🏥 Healthcare Sector (Consultation & Procedure Calculation)", "sal_c": "Estimated number of consultations:", "sal_p": "Base price per consultation ($):", "sal_o": "Operating cost per consultation ($):", "sal_btn": "Calculate Clinic Profitability", "sal_res1": "Estimated Gross Revenue: ${:.2f}", "sal_res2": "Estimated Net Profit: ${:.2f}",
         "con_sub": "🏗️ Construction Sector (Budget per m² Calculation)", "con_m": "Square meters (m²):", "con_c": "Material cost per m² ($):", "con_o": "Labor cost per m² ($):", "con_btn": "Calculate Construction Budget", "con_res1": "Total Estimated Budget: ${:.2f}", "con_res2": "Total Cost per m²: ${:.2f}",
-        "hist_titulo": "📊 Records Table (1 min / 15 max)", "hist_vacio": "No records yet.", "btn_borrar": "🗑️ Clear all tables"
+        "hist_titulo": "📊 Records Table (1 min / 15 max)", "hist_vacio": "No records yet.", "btn_borrar": "🗑️ Clear all tables",
+        "col_hora": "Time", "col_sector": "Sector", "col_detalle": "Detail", "col_resultado": "Result"
     }
 }
 
@@ -254,10 +212,16 @@ elif sector in ["Construcción / Obras", "Construction / Building"]:
 st.divider()
 st.subheader(txt["hist_titulo"])
 if st.session_state.historial:
-    df = pd.DataFrame(st.session_state.historial)
+    df_raw = pd.DataFrame(st.session_state.historial)
+    df = df_raw.rename(columns={
+        "_hora": txt["col_hora"],
+        "_sector": txt["col_sector"],
+        "_detalle": txt["col_detalle"],
+        "_resultado": txt["col_resultado"]
+    })
     st.dataframe(df, use_container_width=True, hide_index=True)
     if st.button(txt["btn_borrar"]):
         st.session_state.historial = []
         st.rerun()
 else:
-    st.info(txt["hist_vacio"])
+    st.info(txt["hist_vacio"]) 
