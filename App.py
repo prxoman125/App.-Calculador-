@@ -1,6 +1,6 @@
 import streamlit as st
 
-# Configuración de página e inyección de CSS avanzado
+# Configuración de página e inyección de CSS con máxima especificidad
 st.set_page_config(page_title="Calculadora por Sectores", layout="centered")
 
 st.markdown("""
@@ -10,32 +10,35 @@ st.markdown("""
         visibility: hidden !important;
     }
     
-    /* === ESTILO DE LAS CAJAS DE INGRESO DE DATOS (SÓLO EL RECUADRO) === */
-    /* Apunta directamente al elemento del recuadro físico de los inputs numéricos y selectores */
-    .stNumberInput div[data-baseweb="base-input"], 
-    .stSelectbox div[data-baseweb="select"] {
-        border: 2px solid #1A365D !important; /* Borde azul oscuro base (combina con botón menos) */
+    /* === ESTILO DEFINITIVO PARA EL RECUADRO FISICO (SÓLO LA CAJA) === */
+    /* Forzamos el borde azul oscuro directamente en el contenedor del input sin alterar la etiqueta de texto */
+    div[data-testid="stNumberInput"] > div:first-of-type, 
+    div[data-testid="stSelectbox"] > div:first-of-type > div {
+        border: 2px solid #1A365D !important; /* Azul oscuro base (combina con botón menos) */
         border-radius: 8px !important;
-        transition: all 0.3s ease-in-out !important;
+        transition: all 0.25s ease-in-out !important;
         background-color: transparent !important;
     }
 
-    /* Eliminar el borde gris interno nativo que pone Streamlit por defecto */
-    .stNumberInput div[data-baseweb="base-input"] > div {
+    /* Remueve cualquier sub-borde interno gris que herede Streamlit por defecto */
+    div[data-testid="stNumberInput"] div, 
+    div[data-testid="stSelectbox"] div {
         border: none !important;
     }
 
-    /* EFECTO HOVER Y ENFOQUE: Aplica el brillo neón sutil SÓLO cuando pasas el mouse o haces clic dentro */
-    .stNumberInput div[data-baseweb="base-input"]:hover,
-    .stNumberInput div[data-baseweb="base-input"]:focus-within,
-    .stSelectbox div[data-baseweb="select"]:hover,
-    .stSelectbox div[data-baseweb="select"]:focus-within {
-        border-color: #2B6CB0 !important; /* Cambia al azul más claro (combina con botón más) */
-        box-shadow: 0 0 10px rgba(43, 108, 176, 0.4) !important; /* Brillo neón suave */
+    /* === EFECTO DE INTERACCIÓN Y BRILLO NEÓN (SÓLO RECUADRO) === */
+    /* El brillo se activa al pasar el mouse (hover) o hacer clic dentro (focus-within) */
+    div[data-testid="stNumberInput"] > div:first-of-type:hover,
+    div[data-testid="stNumberInput"] > div:first-of-type:focus-within,
+    div[data-testid="stSelectbox"] > div:first-of-type > div:hover,
+    div[data-testid="stSelectbox"] > div:first-of-type > div:focus-within {
+        border-color: #2B6CB0 !important; /* Cambia al azul del botón más */
+        /* Efecto neón limpio, sutil y no invasivo */
+        box-shadow: 0 0 12px rgba(43, 108, 176, 0.55) !important;
     }
     
     /* === AJUSTE DE LOS BOTONES MÁS Y MENOS === */
-    /* Configurar el contenedor para usar todo el alto sin bordes grises vacíos */
+    /* Contenedor vertical de botones ocupando el 100% de la altura disponible */
     div[data-testid="stNumberInputStepUpAndDown"] {
         height: 100% !important;
         display: flex !important;
@@ -45,18 +48,18 @@ st.markdown("""
         gap: 2px !important;
     }
 
-    /* Estilos generales para ambos botones */
+    /* Estilos estructurales para ambos botones */
     button[data-testid="stNumberInputStepUp"], 
     button[data-testid="stNumberInputStepDown"] {
         height: 100% !important;
         flex-grow: 1 !important;
         margin: 0 !important;
-        border-radius: 0px 6px 6px 0px !important; /* Ajustado al nuevo radio del recuadro */
+        border-radius: 0px 6px 6px 0px !important; /* Curvatura adaptada al recuadro */
         border: none !important;
         color: white !important;
     }
 
-    /* BOTÓN MENOS (-): Azul Oscuro Clásico */
+    /* BOTÓN MENOS (-): Azul Oscuro */
     button[data-testid="stNumberInputStepDown"] {
         background-color: #1A365D !important;
     }
