@@ -35,33 +35,47 @@ st.markdown("""
     }
     
     /* === ANIMACIÓN LIGERA Y BRILLANTE DEGRADADA PARA LAS LETRAS === */
+    /* === LETRAS EFECTO VIDRIO CRISTAL MORADO A AZUL === */
     .titulo-texto {
-        /* Degradado de tonos brillantes premium para las letras */
-        background: linear-gradient(to right, #3B82F6, #06B6D4, #8B5CF6, #EC4899, #3B82F6);
-        background-size: 300% auto;
+        /* Cristal: lila claro, morado cristal, azul cristal, celeste cristal */
+        background: linear-gradient(90deg, 
+            #E9D5FF 0%, 
+            #C4B5FD 20%, 
+            #A78BFA 35%, 
+            #93C5FD 50%, 
+            #7DD3FC 65%, 
+            #C4B5FD 80%, 
+            #E9D5FF 100%);
+        background-size: 400% auto;
         
-        /* Truco CSS para que el degradado rellene solo el texto */
         -webkit-background-clip: text !important;
         -webkit-text-fill-color: transparent !important;
         background-clip: text !important;
-        text-fill-color: transparent !important;
         
-        /* Animación continua, muy lenta y sutil en las letras */
-        animation: brilloLetrasAnimacion 8s linear infinite;
+        /* Efecto vidrio / cristal */
+        filter: drop-shadow(0 1px 1px rgba(255,255,255,0.6)) 
+                drop-shadow(0 0 10px rgba(167, 139, 250, 0.5)) 
+                drop-shadow(0 0 20px rgba(147, 197, 253, 0.4));
+        text-shadow: 
+            0 0 1px rgba(255,255,255,0.8),
+            0 1px 2px rgba(255,255,255,0.3);
+
+        animation: brilloLetrasCristal 6s ease-in-out infinite;
         
         font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        font-weight: 700;
+        font-weight: 800;
         font-size: 30px;
         letter-spacing: -0.5px;
         margin: 0 !important;
         padding: 0 !important;
         display: inline-block;
+        -webkit-text-stroke: 0.5px rgba(255,255,255,0.15);
     }
     
-    /* Animación suave para el movimiento del degradado brillante interno de las letras */
-    @keyframes brilloLetrasAnimacion {
-        0% { background-position: 0% center; }
-        100% { background-position: 300% center; }
+    @keyframes brilloLetrasCristal {
+        0% { background-position: 0% center; filter: drop-shadow(0 0 10px rgba(167, 139, 250, 0.5)) drop-shadow(0 0 20px rgba(147, 197, 253, 0.3)); }
+        50% { background-position: 100% center; filter: drop-shadow(0 0 12px rgba(125, 211, 252, 0.6)) drop-shadow(0 0 25px rgba(196, 181, 253, 0.4)); }
+        100% { background-position: 0% center; filter: drop-shadow(0 0 10px rgba(167, 139, 250, 0.5)) drop-shadow(0 0 20px rgba(147, 197, 253, 0.3)); }
     }
     
     /* Animación del ciclo continuo de la CAJA (Transición sutil entre Azul y Morado) */
