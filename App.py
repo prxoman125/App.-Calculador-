@@ -10,27 +10,28 @@ st.markdown("""
         visibility: hidden !important;
     }
     
-    /* === ESTILO DE LAS CAJAS DE INGRESO DE DATOS === */
-    /* Aplica a los contenedores principales de entrada de texto, números y selección */
-    div[data-testid="stNumberInput"], div[data-testid="stSelectbox"] div[data-baseweb="select"] {
+    /* === ESTILO DE LAS CAJAS DE INGRESO DE DATOS (SÓLO EL RECUADRO) === */
+    /* Apunta de forma precisa al contenedor del input y del selectbox sin tocar sus etiquetas superiores */
+    div[data-testid="stNumberInput"] > div[data-baseweb="base-input"], 
+    div[data-testid="stSelectbox"] > div[data-baseweb="select"] {
         border: 2px solid #1A365D !important; /* Borde azul oscuro base (combina con botón menos) */
         border-radius: 8px !important;
         transition: all 0.3s ease-in-out !important;
         background-color: transparent !important;
     }
 
-    /* Modifica el input interno para asegurar que use el mismo radio de borde */
-    div[data-testid="stNumberInput"] > div {
+    /* Eliminar bordes nativos internos para evitar duplicaciones visuales */
+    div[data-testid="stNumberInput"] > div[data-baseweb="base-input"] > div {
         border: none !important;
-        border-radius: 6px !important;
     }
 
-    /* EFECTO HOVER Y ENFOQUE: Brillo neón sutil cuando el usuario interactúa */
-    div[data-testid="stNumberInput"]:focus-within, 
-    div[data-testid="stSelectbox"] div[data-baseweb="select"]:focus-within,
-    div[data-testid="stNumberInput"]:hover {
+    /* EFECTO HOVER Y ENFOQUE SÓLO EN EL RECUADRO: Brillo neón sutil al interactuar */
+    div[data-testid="stNumberInput"] > div[data-baseweb="base-input"]:focus-within, 
+    div[data-testid="stSelectbox"] > div[data-baseweb="select"]:focus-within,
+    div[data-testid="stNumberInput"] > div[data-baseweb="base-input"]:hover,
+    div[data-testid="stSelectbox"] > div[data-baseweb="select"]:hover {
         border-color: #2B6CB0 !important; /* Cambia al azul más claro (combina con botón más) */
-        /* Sutil sombra neón difuminada para que no sea molesta a la vista */
+        /* Sutil sombra neón difuminada sin molestar a la vista */
         box-shadow: 0 0 10px rgba(43, 108, 176, 0.4) !important; 
     }
     
@@ -42,7 +43,7 @@ st.markdown("""
         flex-direction: column !important;
         justify-content: space-between !important;
         padding: 0 !important;
-        gap: 2px !important; /* Ajustado para calzar con el nuevo borde */
+        gap: 2px !important;
     }
 
     /* Estilos generales para ambos botones */
@@ -51,7 +52,7 @@ st.markdown("""
         height: 100% !important;
         flex-grow: 1 !important;
         margin: 0 !important;
-        border-radius: 0px 4px 4px 0px !important; /* Redondeado solo en la esquina derecha */
+        border-radius: 0px 6px 6px 0px !important; /* Ajustado al nuevo radio del recuadro */
         border: none !important;
         color: white !important;
     }
@@ -77,7 +78,7 @@ st.markdown("""
 st.title("📊 Calculadora Interactiva por Sectores")
 st.write("Selecciona un sector, ingresa los datos y calcula los resultados de forma automática.")
 
-# Menú de selección de sector (también hereda el diseño del borde)
+# Menú de selección de sector (también hereda el diseño del borde limpio)
 sector = st.selectbox(
     "Elige el sector económico:",
     ["Tecnología / Software", "Manufactura", "Comercio / Retail"]
@@ -106,7 +107,7 @@ elif sector == "Manufactura":
     if st.button("Calcular Costo de Producción"):
         total = (unidades * costo_material) + costo_operativo_fijo
         costo_unitario_real = total / unidades
-        st.success(f"Costo de Production Total: ${total:.2f}")
+        st.success(f"Costo de Producción Total: ${total:.2f}")
         st.info(f"Costo por unidad fabricada: ${costo_unitario_real:.2f}")
 
 elif sector == "Comercio / Retail":
