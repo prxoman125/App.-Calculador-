@@ -1,192 +1,122 @@
 import streamlit as st
 
-# Configuración de página e inyección de CSS con máxima especificidad
 st.set_page_config(page_title="Calculadora por Sectores / Sector Calculator", layout="centered")
 
-# --- MANEJO DE ESTADO DE IDIOMA ---
 if "idioma" not in st.session_state:
     st.session_state.idioma = "Español"
 
 st.markdown("""
     <style>
-    /* Ocultar el menú superior y el pie de página */
-    #MainMenu, header, footer {
-        visibility: hidden !important;
-    }
-    
-    /* === COLOR GENERAL: PALABRAS Y NÚMEROS EN AZUL CLARO === */
-    /* Todo el texto de la app en azul claro, excepto el título */
+    #MainMenu, header, footer { visibility: hidden !important; }
+
+    /* Texto general en azul claro */
     p, label, span, div[data-testid="stMarkdownContainer"] p, 
-    .st-emotion-cache-1gulkj5 p, [data-testid="stWidgetLabel"] p {
+    [data-testid="stWidgetLabel"] p {
         color: #93C5FD !important;
     }
+
+    /* === TÍTULOS DE SECTOR - AZUL MÁS OSCURO === */
+    h3, [data-testid="stSubheader"] {
+        color: #1E3A8A !important;
+        font-weight: 800 !important;
+        text-shadow: 0 0 10px rgba(30, 58, 138, 0.4);
+    }
     
-    /* === BANNER DEL TÍTULO PROFESIONAL === */
+    /* === BANNER PRINCIPAL - FONDO AZUL OSCURO A SEMI CLARO === */
     .titulo-container {
-        background: linear-gradient(135deg, #020617, #090d1f, #111c38, #190f2e, #020617);
-        background-size: 200% 200%;
-        animation: neonAzulMoradoSincronizado 16s ease-in-out infinite;
+        background: linear-gradient(135deg, #020617 0%, #0B1A3A 25%, #1E3A8A 50%, #1E40AF 75%, #020617 100%);
+        background-size: 300% 300%;
+        animation: fondoAzul 8s ease-in-out infinite;
         padding: 24px;
         border-radius: 12px;
         text-align: center;
         margin-bottom: 28px;
-        border: 3px solid #0f172a; 
+        border: 3px solid #1E3A8A;
     }
     
-    /* Título se mantiene con su degradado brillante */
+    /* === LETRAS - SOLO AZUL MEDIANOCHE A AZUL CLARO === */
     .titulo-texto {
-        background: linear-gradient(to right, #3B82F6, #06B6D4, #8B5CF6, #EC4899, #3B82F6);
+        background: linear-gradient(90deg, #1E3A8A 0%, #1E40AF 25%, #3B82F6 50%, #60A5FA 75%, #1E3A8A 100%);
         background-size: 300% auto;
         -webkit-background-clip: text !important;
         -webkit-text-fill-color: transparent !important;
         background-clip: text !important;
-        text-fill-color: transparent !important;
-        animation: brilloLetrasAnimacion 8s linear infinite;
-        font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        font-weight: 700;
+        animation: letrasAzul 5s ease-in-out infinite;
+        font-family: 'Inter', sans-serif;
+        font-weight: 800;
         font-size: 30px;
-        letter-spacing: -0.5px;
         margin: 0 !important;
-        padding: 0 !important;
         display: inline-block;
+        filter: drop-shadow(0 0 8px rgba(30, 58, 138, 0.5));
     }
-    
-    @keyframes brilloLetrasAnimacion {
+
+    @keyframes letrasAzul {
         0% { background-position: 0% center; }
-        100% { background-position: 300% center; }
+        50% { background-position: 100% center; }
+        100% { background-position: 0% center; }
     }
-    
-    @keyframes neonAzulMoradoSincronizado {
-        0%, 100% {
+
+    @keyframes fondoAzul {
+        0% {
             background-position: 0% 50%;
-            border-color: #1E3A8A; 
-            box-shadow: 0 0 25px rgba(30, 58, 138, 0.85);
+            border-color: #020617;
+            box-shadow: 0 0 15px rgba(2, 6, 23, 0.8);
         }
         50% {
             background-position: 100% 50%;
-            border-color: #6D28D9; 
-            box-shadow: 0 0 25px rgba(109, 40, 217, 0.85);
+            border-color: #3B82F6;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+        }
+        100% {
+            background-position: 0% 50%;
+            border-color: #020617;
+            box-shadow: 0 0 15px rgba(2, 6, 23, 0.8);
         }
     }
-    
-    /* === BARRAS DE RESULTADOS === */
-    div[data-testid="stNotificationV2"], 
-    div[role="alert"],
-    div.stAlert,
-    .element-container:has(div[role="alert"]) div[role="alert"] {
-        background-image: none !important;
-        background-color: transparent !important;
-        border-radius: 8px !important;
-    }
-    div[data-testid="stNotificationV2"]:has(svg[title="Success"]),
-    div[role="alert"]:has(svg[title="Success"]),
-    .stAlert:has(svg[title="Success"]) {
-        background: linear-gradient(135deg, #10B981, #064E3B) !important;
-        border: 2px solid #10B981 !important;
-        color: #FFFFFF !important;
-        box-shadow: 0 4px 12px rgba(6, 78, 59, 0.4) !important;
-    }
-    div[data-testid="stNotificationV2"]:has(svg[title="Info"]),
-    div[role="alert"]:has(svg[title="Info"]),
-    .stAlert:has(svg[title="Info"]) {
-        background: linear-gradient(135deg, #3B82F6, #1E3A8A) !important;
-        border: 2px solid #3B82F6 !important;
-        color: #FFFFFF !important;
-        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.4) !important;
-    }
-    .stAlert p, .stAlert div, div[role="alert"] p, div[role="alert"] div, div[data-testid="stNotificationContent"] span {
-        color: #FFFFFF !important;
-    }
 
-    /* === RECUADRO FÍSICO === */
+    /* Resultados */
+    div[data-testid="stNotificationV2"], div[role="alert"], div.stAlert {
+        background-image: none !important; background-color: transparent !important; border-radius: 8px !important;
+    }
+    div[data-testid="stNotificationV2"]:has(svg[title="Success"]), div[role="alert"]:has(svg[title="Success"]) {
+        background: linear-gradient(135deg, #10B981, #064E3B) !important; border: 2px solid #10B981 !important; color: #FFF !important;
+    }
+    div[data-testid="stNotificationV2"]:has(svg[title="Info"]), div[role="alert"]:has(svg[title="Info"]) {
+        background: linear-gradient(135deg, #3B82F6, #1E3A8A) !important; border: 2px solid #3B82F6 !important; color: #FFF !important;
+    }
+    .stAlert p, .stAlert div { color: #FFFFFF !important; }
+
+    /* Inputs */
     div[data-testid="stNumberInput"] > div:first-of-type, 
     div[data-testid="stSelectbox"] > div:first-of-type > div {
-        border: 2px solid #1A365D !important;
-        border-radius: 8px !important;
-        transition: all 0.25s ease-in-out !important;
+        border: 2px solid #1A365D !important; border-radius: 8px !important;
         background: linear-gradient(135deg, #22252A, #0F1115) !important;
-        position: relative !important;
     }
-    div[data-testid="stNumberInput"] div, 
-    div[data-testid="stSelectbox"] div {
-        border: none !important;
-        background-color: transparent !important;
-    }
-
-    /* === NÚMEROS EN AZUL CLARO Y CENTRADOS === */
     .stNumberInput input {
-        color: #93C5FD !important;
-        text-align: center !important;
-        padding-left: 80px !important;
-        padding-right: 90px !important;
-        font-weight: 600 !important;
+        color: #93C5FD !important; text-align: center !important;
+        padding-left: 80px !important; padding-right: 90px !important; font-weight: 600 !important;
     }
-    
-    /* Texto del selectbox en azul claro */
-    div[data-baseweb="select"] span, 
-    div[data-baseweb="select"] div,
-    .stSelectbox div[data-baseweb="select"] {
-        color: #93C5FD !important;
-    }
+    div[data-baseweb="select"] span, div[data-baseweb="select"] div { color: #93C5FD !important; }
 
-    /* === EFECTO HOVER === */
-    div[data-testid="stNumberInput"] > div:first-of-type:hover,
-    div[data-testid="stNumberInput"] > div:first-of-type:focus-within,
-    div[data-testid="stSelectbox"] > div:first-of-type > div:hover,
-    div[data-testid="stSelectbox"] > div:first-of-type > div:focus-within {
-        border-color: #2B6CB0 !important;
-        box-shadow: 0 0 12px rgba(43, 108, 176, 0.55) !important;
-    }
-    
-    /* === CONTROL DE BOTONES + y - (SE MANTIENEN ORIGINALES) === */
+    /* Botones + y - se mantienen grises */
     div[data-testid="stNumberInputStepUpAndDown"] {
-        position: absolute !important;
-        top: 0 !important;
-        right: 12px !important;
-        height: 100% !important;
-        width: 80px !important;
-        display: block !important;
-        background: transparent !important;
+        position: absolute !important; top: 0 !important; right: 12px !important;
+        height: 100% !important; width: 80px !important; background: transparent !important;
     }
-    button[data-testid="stNumberInputStepUp"], 
-    button[data-testid="stNumberInputStepDown"] {
-        position: absolute !important;
-        top: 50% !important;
-        transform: translateY(-50%) !important;
-        height: 24px !important;
-        width: 24px !important;
-        margin: 0 !important;
-        border-radius: 4px !important;
-        border: none !important;
-        color: #A0AEC0 !important;
-        background-color: transparent !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
+    button[data-testid="stNumberInputStepUp"], button[data-testid="stNumberInputStepDown"] {
+        position: absolute !important; top: 50% !important; transform: translateY(-50%) !important;
+        height: 24px !important; width: 24px !important; border: none !important;
+        color: #A0AEC0 !important; background: transparent !important;
     }
     button[data-testid="stNumberInputStepDown"] { left: 6px !important; }
     button[data-testid="stNumberInputStepUp"] { right: 6px !important; }
-    button[data-testid="stNumberInputStepUp"]:hover, 
-    button[data-testid="stNumberInputStepDown"]:hover {
-        color: #FFFFFF !important;
-        background-color: rgba(255, 255, 255, 0.05) !important;
-    }
-    button[data-testid="stNumberInputStepUp"]:active, 
-    button[data-testid="stNumberInputStepDown"]:active {
-        background-color: #1A365D !important;
-        color: #FFFFFF !important;
-        box-shadow: 0 0 10px #1A365D, 0 0 20px #1A365D !important;
-        transform: translateY(-50%) scale(0.92) !important;
-    }
     </style>
 """, unsafe_allow_html=True)
 
-# Diccionarios para internacionalización
 TEXTOS = {
     "Español": {
         "titulo": "Calculadora Interactiva por Sectores",
         "descripcion": "Selecciona un sector, ingresa los datos y calcula los resultados de forma automática.",
-        "lbl_idioma": "🌐 Idioma / Language:",
         "lbl_sector": "Elige el sector económico:",
         "sectores": ["Tecnología / Software","Manufactura","Comercio / Retail","Salud / Clínica","Construcción / Obras"],
         "btn_cambiar_idioma": "Switch to English",
@@ -199,14 +129,14 @@ TEXTOS = {
     "English": {
         "titulo": "Interactive Sector Calculator",
         "descripcion": "Select a sector, enter data, and calculate results automatically.",
-        "lbl_idioma": "🌐 Language / Idioma:", "lbl_sector": "Choose the economic sector:",
+        "lbl_sector": "Choose the economic sector:",
         "sectores": ["Technology / Software","Manufacturing","Retail / Commerce","Healthcare / Clinic","Construction / Building"],
         "btn_cambiar_idioma": "Cambiar a Español",
-        "tech_sub": "💻 Technology Sector (SaaS / Licensing Calculation)", "tech_u": "Number of active users:", "tech_c": "Monthly cost per user ($):", "tech_d": "Applied discount (%):", "tech_btn": "Calculate Total", "tech_res": "Total Monthly Cost: ${:.2f}",
-        "man_sub": "⚙️ Manufacturing Sector (Production Calculation)", "man_u": "Units to produce:", "man_m": "Material cost per unit ($):", "man_f": "Fixed operational costs ($):", "man_btn": "Calculate Production Cost", "man_res1": "Total Production Cost: ${:.2f}", "man_res2": "Cost per manufactured unit: ${:.2f}",
-        "com_sub": "🛍️ Retail Sector (Margin & Sale Calculation)", "com_c": "Product acquisition cost ($):", "com_m": "Desired profit margin (%):", "com_i": "Local tax / VAT (%):", "com_btn": "Calculate Selling Price", "com_res1": "Public Retail Price: ${:.2f}", "com_res2": "Net profit per product: ${:.2f}",
-        "sal_sub": "🏥 Healthcare Sector (Consultation & Procedure Calculation)", "sal_c": "Estimated number of consultations:", "sal_p": "Base price per consultation ($):", "sal_o": "Operating cost per consultation ($):", "sal_btn": "Calculate Clinic Profitability", "sal_res1": "Estimated Gross Revenue: ${:.2f}", "sal_res2": "Estimated Net Profit: ${:.2f}",
-        "con_sub": "🏗️ Construction Sector (Budget per m² Calculation)", "con_m": "Square meters (m²):", "con_c": "Material cost per m² ($):", "con_o": "Labor cost per m² ($):", "con_btn": "Calculate Construction Budget", "con_res1": "Total Estimated Budget: ${:.2f}", "con_res2": "Total Cost per m²: ${:.2f}"
+        "tech_sub": "💻 Technology Sector", "tech_u": "Number of active users:", "tech_c": "Monthly cost per user ($):", "tech_d": "Applied discount (%):", "tech_btn": "Calculate Total", "tech_res": "Total Monthly Cost: ${:.2f}",
+        "man_sub": "⚙️ Manufacturing Sector", "man_u": "Units to produce:", "man_m": "Material cost per unit ($):", "man_f": "Fixed operational costs ($):", "man_btn": "Calculate Production Cost", "man_res1": "Total Production Cost: ${:.2f}", "man_res2": "Cost per manufactured unit: ${:.2f}",
+        "com_sub": "🛍️ Retail Sector", "com_c": "Product acquisition cost ($):", "com_m": "Desired profit margin (%):", "com_i": "Local tax / VAT (%):", "com_btn": "Calculate Selling Price", "com_res1": "Public Retail Price: ${:.2f}", "com_res2": "Net profit per product: ${:.2f}",
+        "sal_sub": "🏥 Healthcare Sector", "sal_c": "Estimated number of consultations:", "sal_p": "Base price per consultation ($):", "sal_o": "Operating cost per consultation ($):", "sal_btn": "Calculate Clinic Profitability", "sal_res1": "Estimated Gross Revenue: ${:.2f}", "sal_res2": "Estimated Net Profit: ${:.2f}",
+        "con_sub": "🏗️ Construction Sector", "con_m": "Square meters (m²):", "con_c": "Material cost per m² ($):", "con_o": "Labor cost per m² ($):", "con_btn": "Calculate Construction Budget", "con_res1": "Total Estimated Budget: ${:.2f}", "con_res2": "Total Cost per m²: ${:.2f}"
     }
 }
 
@@ -225,8 +155,7 @@ if sector in ["Tecnología / Software", "Technology / Software"]:
     costo_por_usuario = st.number_input(txt["tech_c"], min_value=0.0, value=15.0, step=0.5)
     descuento = st.number_input(txt["tech_d"], min_value=0, max_value=100, value=5, step=1)
     if st.button(txt["tech_btn"]):
-        total = usuarios * costo_por_usuario * (1 - descuento / 100)
-        st.success(txt["tech_res"].format(total))
+        st.success(txt["tech_res"].format(usuarios * costo_por_usuario * (1 - descuento / 100)))
 elif sector in ["Manufactura", "Manufacturing"]:
     st.subheader(txt["man_sub"])
     unidades = st.number_input(txt["man_u"], min_value=1, value=1000, step=10)
@@ -243,8 +172,7 @@ elif sector in ["Comercio / Retail", "Retail / Commerce"]:
     impuesto = st.number_input(txt["com_i"], min_value=0.0, value=16.0, step=0.5)
     if st.button(txt["com_btn"]):
         precio_base = costo_producto * (1 + margen_ganancia / 100)
-        precio_final = precio_base * (1 + impuesto / 100)
-        st.success(txt["com_res1"].format(precio_final))
+        st.success(txt["com_res1"].format(precio_base * (1 + impuesto / 100)))
         st.info(txt["com_res2"].format(precio_base - costo_producto))
 elif sector in ["Salud / Clínica", "Healthcare / Clinic"]:
     st.subheader(txt["sal_sub"])
@@ -260,6 +188,5 @@ elif sector in ["Construcción / Obras", "Construction / Building"]:
     costo_material_m2 = st.number_input(txt["con_c"], min_value=0.0, value=120.0, step=5.0)
     costo_obra_m2 = st.number_input(txt["con_o"], min_value=0.0, value=80.0, step=5.0)
     if st.button(txt["con_btn"]):
-        costo_m2_total = costo_material_m2 + costo_obra_m2
-        st.success(txt["con_res1"].format(metros * costo_m2_total))
-        st.info(txt["con_res2"].format(costo_m2_total)) 
+        st.success(txt["con_res1"].format(metros * (costo_material_m2 + costo_obra_m2)))
+        st.info(txt["con_res2"].format(costo_material_m2 + costo_obra_m2)) 
