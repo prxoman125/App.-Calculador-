@@ -11,28 +11,27 @@ st.markdown("""
     }
     
     /* === ESTILO DE LAS CAJAS DE INGRESO DE DATOS (SÓLO EL RECUADRO) === */
-    /* Apunta de forma precisa al contenedor del input y del selectbox sin tocar sus etiquetas superiores */
-    div[data-testid="stNumberInput"] > div[data-baseweb="base-input"], 
-    div[data-testid="stSelectbox"] > div[data-baseweb="select"] {
+    /* Apunta directamente al elemento del recuadro físico de los inputs numéricos y selectores */
+    .stNumberInput div[data-baseweb="base-input"], 
+    .stSelectbox div[data-baseweb="select"] {
         border: 2px solid #1A365D !important; /* Borde azul oscuro base (combina con botón menos) */
         border-radius: 8px !important;
         transition: all 0.3s ease-in-out !important;
         background-color: transparent !important;
     }
 
-    /* Eliminar bordes nativos internos para evitar duplicaciones visuales */
-    div[data-testid="stNumberInput"] > div[data-baseweb="base-input"] > div {
+    /* Eliminar el borde gris interno nativo que pone Streamlit por defecto */
+    .stNumberInput div[data-baseweb="base-input"] > div {
         border: none !important;
     }
 
-    /* EFECTO HOVER Y ENFOQUE SÓLO EN EL RECUADRO: Brillo neón sutil al interactuar */
-    div[data-testid="stNumberInput"] > div[data-baseweb="base-input"]:focus-within, 
-    div[data-testid="stSelectbox"] > div[data-baseweb="select"]:focus-within,
-    div[data-testid="stNumberInput"] > div[data-baseweb="base-input"]:hover,
-    div[data-testid="stSelectbox"] > div[data-baseweb="select"]:hover {
+    /* EFECTO HOVER Y ENFOQUE: Aplica el brillo neón sutil SÓLO cuando pasas el mouse o haces clic dentro */
+    .stNumberInput div[data-baseweb="base-input"]:hover,
+    .stNumberInput div[data-baseweb="base-input"]:focus-within,
+    .stSelectbox div[data-baseweb="select"]:hover,
+    .stSelectbox div[data-baseweb="select"]:focus-within {
         border-color: #2B6CB0 !important; /* Cambia al azul más claro (combina con botón más) */
-        /* Sutil sombra neón difuminada sin molestar a la vista */
-        box-shadow: 0 0 10px rgba(43, 108, 176, 0.4) !important; 
+        box-shadow: 0 0 10px rgba(43, 108, 176, 0.4) !important; /* Brillo neón suave */
     }
     
     /* === AJUSTE DE LOS BOTONES MÁS Y MENOS === */
@@ -78,7 +77,7 @@ st.markdown("""
 st.title("📊 Calculadora Interactiva por Sectores")
 st.write("Selecciona un sector, ingresa los datos y calcula los resultados de forma automática.")
 
-# Menú de selección de sector (también hereda el diseño del borde limpio)
+# Menú de selección de sector
 sector = st.selectbox(
     "Elige el sector económico:",
     ["Tecnología / Software", "Manufactura", "Comercio / Retail"]
