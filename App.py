@@ -35,14 +35,28 @@ st.markdown("""
         font-weight: 700 !important;
     }
     .titulo-container {
-        background: linear-gradient(135deg, #020617 0%, #301934 100%);
-        background-size: 300% 300%;
-        animation: fondoAzulClaroOscuro 6s ease-in-out infinite;
-        padding: 24px;
-        border-radius: 12px;
-        text-align: center;
-        margin-bottom: 28px;
-        border: 3px solid #1e3a8a; 
+  background: linear-gradient(135deg, #00f0ff 0%, #8b00ff 50%, #0033cc 100%);
+  background-size: 300% 300%;
+  animation: fondoAzulClaroOscuro 6s ease-in-out infinite;
+  padding: 24px;
+  border-radius: 12px;
+  text-align: center;
+  margin-bottom: 28px;
+  border: 3px solid #00f0ff;
+}
+
+@keyframes fondoAzulClaroOscuro {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
     }
     .titulo-texto {
         color: #FFFFFF !important;
