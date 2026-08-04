@@ -77,34 +77,43 @@ st.markdown("""
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
     * { font-family: 'Inter', sans-serif!important; }
     #MainMenu, header, footer { visibility: hidden!important; }
-
-    /* === ELIMINAR MARGEN ROJO INTERIOR PREDETERMINADO DE STREAMLIT === */
-    input:focus, textarea:focus, select:focus, div:focus {
-        outline: none!important;
-        box-shadow: none!important;
+    /* === ELIMINAR INTERIOR ROJO HORRIBLE DE LOS RECUADROS - FIX DEFINITIVO === */
+    div[data-testid="stNumberInput"] > div:first-of-type {
+        border: 1px solid rgba(255,255,255,0.15) !important;
+        box-shadow: none !important;
     }
-    div[data-testid="stNumberInput"] input:focus {
-        outline: none!important;
-        border: none!important;
-        box-shadow: none!important;
+    div[data-testid="stNumberInput"] div[data-baseweb="base-input"],
+    div[data-testid="stNumberInput"] div[data-baseweb="input"],
+    div[data-testid="stNumberInput"] div[data-baseweb="input"] > div,
+    div[data-baseweb="input"] {
+        border: none !important;
+        border-color: transparent !important;
+        box-shadow: none !important;
+        background-color: transparent !important;
+        outline: none !important;
     }
-    div[data-baseweb="input"], div[data-baseweb="base-input"] {
-        border: none!important;
-        box-shadow: none!important;
-        background: transparent!important;
+    input {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
     }
-    div[data-baseweb="input"]:focus-within, div[data-baseweb="base-input"]:focus-within {
-        border: none!important;
-        box-shadow: none!important;
+    input:focus {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
     }
-    input[data-baseweb="input"] {
-        border: none!important;
-        box-shadow: none!important;
+    input[aria-invalid="true"] {
+        border: none !important;
+        box-shadow: none !important;
     }
-    /* Quitar borde rojo de error / invalid */
-    div[data-testid="stNumberInput"] > div:first-of-type:has(input:invalid) {
-        border-color: rgba(255,255,255,0.15)!important;
-        box-shadow: none!important;
+    /* Quitar el ring rojo de error de Streamlit */
+    div[data-testid="stNumberInput"] * {
+        --tw-ring-color: transparent !important;
+    }
+    div[data-baseweb="input"]:focus-within {
+        border: none !important;
+        box-shadow: none !important;
+    }
     }
 
    .stApp {
