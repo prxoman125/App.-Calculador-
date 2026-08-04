@@ -35,7 +35,7 @@ st.markdown("""
         font-weight: 700 !important;
     }
     .titulo-container {
-        background: linear-gradient(135deg, #020617 0%, #0f172a 25%, #1e3a8a 50%, #3b82f6 75%, #020617 100%);
+        background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
         background-size: 300% 300%;
         animation: fondoAzulClaroOscuro 6s ease-in-out infinite;
         padding: 24px;
