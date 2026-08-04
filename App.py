@@ -1,6 +1,6 @@
 import streamlit as st
 
-# Configuración de página e inyección de CSS
+# Configuración de página e inyección de CSS avanzado
 st.set_page_config(page_title="Calculadora por Sectores", layout="centered")
 
 st.markdown("""
@@ -10,23 +10,48 @@ st.markdown("""
         visibility: hidden !important;
     }
     
-    /* Configurar el contenedor de los botones para que usen todo el alto y tengan separación entre ellos */
+    /* === ESTILO DE LAS CAJAS DE INGRESO DE DATOS === */
+    /* Aplica a los contenedores principales de entrada de texto, números y selección */
+    div[data-testid="stNumberInput"], div[data-testid="stSelectbox"] div[data-baseweb="select"] {
+        border: 2px solid #1A365D !important; /* Borde azul oscuro base (combina con botón menos) */
+        border-radius: 8px !important;
+        transition: all 0.3s ease-in-out !important;
+        background-color: transparent !important;
+    }
+
+    /* Modifica el input interno para asegurar que use el mismo radio de borde */
+    div[data-testid="stNumberInput"] > div {
+        border: none !important;
+        border-radius: 6px !important;
+    }
+
+    /* EFECTO HOVER Y ENFOQUE: Brillo neón sutil cuando el usuario interactúa */
+    div[data-testid="stNumberInput"]:focus-within, 
+    div[data-testid="stSelectbox"] div[data-baseweb="select"]:focus-within,
+    div[data-testid="stNumberInput"]:hover {
+        border-color: #2B6CB0 !important; /* Cambia al azul más claro (combina con botón más) */
+        /* Sutil sombra neón difuminada para que no sea molesta a la vista */
+        box-shadow: 0 0 10px rgba(43, 108, 176, 0.4) !important; 
+    }
+    
+    /* === AJUSTE DE LOS BOTONES MÁS Y MENOS === */
+    /* Configurar el contenedor para usar todo el alto sin bordes grises vacíos */
     div[data-testid="stNumberInputStepUpAndDown"] {
         height: 100% !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: space-between !important;
         padding: 0 !important;
-        gap: 4px !important; /* Espacio de separación entre los dos botones */
+        gap: 2px !important; /* Ajustado para calzar con el nuevo borde */
     }
 
-    /* Estilos generales para ambos botones: expandirse al 100% de la celda y quitar bordes grises */
+    /* Estilos generales para ambos botones */
     button[data-testid="stNumberInputStepUp"], 
     button[data-testid="stNumberInputStepDown"] {
         height: 100% !important;
         flex-grow: 1 !important;
         margin: 0 !important;
-        border-radius: 4px !important;
+        border-radius: 0px 4px 4px 0px !important; /* Redondeado solo en la esquina derecha */
         border: none !important;
         color: white !important;
     }
@@ -39,7 +64,7 @@ st.markdown("""
         background-color: #10243F !important;
     }
 
-    /* BOTÓN MÁS (+): Azul Más Claro / Eléctrico para contrastar */
+    /* BOTÓN MÁS (+): Azul Más Claro / Eléctrico */
     button[data-testid="stNumberInputStepUp"] {
         background-color: #2B6CB0 !important;
     }
@@ -52,7 +77,7 @@ st.markdown("""
 st.title("📊 Calculadora Interactiva por Sectores")
 st.write("Selecciona un sector, ingresa los datos y calcula los resultados de forma automática.")
 
-# Menú de selección de sector
+# Menú de selección de sector (también hereda el diseño del borde)
 sector = st.selectbox(
     "Elige el sector económico:",
     ["Tecnología / Software", "Manufactura", "Comercio / Retail"]
@@ -81,7 +106,7 @@ elif sector == "Manufactura":
     if st.button("Calcular Costo de Producción"):
         total = (unidades * costo_material) + costo_operativo_fijo
         costo_unitario_real = total / unidades
-        st.success(f"Costo de Producción Total: ${total:.2f}")
+        st.success(f"Costo de Production Total: ${total:.2f}")
         st.info(f"Costo por unidad fabricada: ${costo_unitario_real:.2f}")
 
 elif sector == "Comercio / Retail":
