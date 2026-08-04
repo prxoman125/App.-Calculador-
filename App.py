@@ -10,35 +10,61 @@ st.markdown("""
         visibility: hidden !important;
     }
     
+    /* === BANNER DEL TÍTULO PROFESIONAL CON DEGRADADO NEÓN ANIMADO === */
+    .titulo-container {
+        background: linear-gradient(-45deg, #1A365D, #2B6CB0, #4C1D95, #2E1065);
+        background-size: 400% 400%;
+        animation: gradientAnimation 12s ease infinite;
+        padding: 24px;
+        border-radius: 12px;
+        text-align: center;
+        margin-bottom: 28px;
+        border: 2px solid #2B6CB0;
+        /* Brillo neón sutil combinado entre azul y morado */
+        box-shadow: 0 0 15px rgba(43, 108, 176, 0.4), 0 0 25px rgba(76, 29, 149, 0.2);
+    }
+    
+    .titulo-texto {
+        color: #FFFFFF !important;
+        font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-weight: 700;
+        font-size: 30px;
+        letter-spacing: -0.5px;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* Animación suave para la transición del degradado azul oscuro -> morado oscuro */
+    @keyframes gradientAnimation {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    
     /* === ESTILO DEFINITIVO PARA EL RECUADRO FISICO (SÓLO LA CAJA) === */
-    /* Forzamos el borde azul oscuro directamente en el contenedor del input sin alterar la etiqueta de texto */
     div[data-testid="stNumberInput"] > div:first-of-type, 
     div[data-testid="stSelectbox"] > div:first-of-type > div {
-        border: 2px solid #1A365D !important; /* Azul oscuro base (combina con botón menos) */
+        border: 2px solid #1A365D !important;
         border-radius: 8px !important;
         transition: all 0.25s ease-in-out !important;
         background-color: transparent !important;
     }
 
-    /* Remueve cualquier sub-borde interno gris que herede Streamlit por defecto */
     div[data-testid="stNumberInput"] div, 
     div[data-testid="stSelectbox"] div {
         border: none !important;
     }
 
     /* === EFECTO DE INTERACCIÓN Y BRILLO NEÓN (SÓLO RECUADRO) === */
-    /* El brillo se activa al pasar el mouse (hover) o hacer clic dentro (focus-within) */
     div[data-testid="stNumberInput"] > div:first-of-type:hover,
     div[data-testid="stNumberInput"] > div:first-of-type:focus-within,
     div[data-testid="stSelectbox"] > div:first-of-type > div:hover,
     div[data-testid="stSelectbox"] > div:first-of-type > div:focus-within {
-        border-color: #2B6CB0 !important; /* Cambia al azul del botón más */
-        /* Efecto neón limpio, sutil y no invasivo */
+        border-color: #2B6CB0 !important;
         box-shadow: 0 0 12px rgba(43, 108, 176, 0.55) !important;
     }
     
     /* === AJUSTE DE LOS BOTONES MÁS Y MENOS === */
-    /* Contenedor vertical de botones ocupando el 100% de la altura disponible */
     div[data-testid="stNumberInputStepUpAndDown"] {
         height: 100% !important;
         display: flex !important;
@@ -48,13 +74,12 @@ st.markdown("""
         gap: 2px !important;
     }
 
-    /* Estilos estructurales para ambos botones */
     button[data-testid="stNumberInputStepUp"], 
     button[data-testid="stNumberInputStepDown"] {
         height: 100% !important;
         flex-grow: 1 !important;
         margin: 0 !important;
-        border-radius: 0px 6px 6px 0px !important; /* Curvatura adaptada al recuadro */
+        border-radius: 0px 6px 6px 0px !important;
         border: none !important;
         color: white !important;
     }
@@ -77,7 +102,9 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("📊 Calculadora Interactiva por Sectores")
+# Renderizado del título profesional usando el contenedor CSS personalizado
+st.markdown('<div class="titulo-container"><p class="titulo-texto">Calculadora Interactiva por Sectores</p></div>', unsafe_allow_html=True)
+
 st.write("Selecciona un sector, ingresa los datos y calcula los resultados de forma automática.")
 
 # Menú de selección de sector
