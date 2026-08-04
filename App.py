@@ -27,12 +27,12 @@ st.markdown("""
     <style>
     #MainMenu, header, footer { visibility: hidden !important; }
     
-    /* === FONDO DEGRADADO NEGRO Y AZUL OSCURO === */
+    /* === FONDO DEGRADADO SUTIL AZUL MEDIO A MORADO MEDIO === */
     .stApp {
-        background: linear-gradient(135deg, #000000 0%, #020617 40%, #0f172a 100%) !important;
+        background: linear-gradient(135deg, #1E40AF 0%, #3730A3 50%, #7C3AED 100%) !important;
     }
     [data-testid="stAppViewContainer"] {
-        background: linear-gradient(135deg, #000000 0%, #020617 40%, #0f172a 100%) !important;
+        background: linear-gradient(135deg, #1E40AF 0%, #3730A3 50%, #7C3AED 100%) !important;
     }
     
     p, label, span, div[data-testid="stMarkdownContainer"] p, 
