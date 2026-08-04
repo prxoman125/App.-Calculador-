@@ -26,10 +26,10 @@ st.markdown("""
     <style>
     #MainMenu, header, footer { visibility: hidden !important; }
     .stApp {
-        background: linear-gradient(135deg, #1E40AF 0%, #3730A3 50%, #7C3AED 100%) !important;
+        background: linear-gradient(135deg, #1E3A8A 0%, #312E81 50%, #581C87 100%) !important;
     }
     [data-testid="stAppViewContainer"] {
-        background: linear-gradient(135deg, #1E40AF 0%, #3730A3 50%, #7C3AED 100%) !important;
+        background: linear-gradient(135deg, #1E3A8A 0%, #312E81 50%, #581C87 100%) !important;
     }
     p, label, span, div[data-testid="stMarkdownContainer"] p, 
     .st-emotion-cache-1gulkj5 p, [data-testid="stWidgetLabel"] p {
@@ -90,8 +90,6 @@ st.markdown("""
         background: linear-gradient(135deg, #3B82F6, #1E3A8A) !important; border: 2px solid #3B82F6 !important; color: #FFF !important;
     }
     .stAlert p, .stAlert div { color: #FFFFFF !important; }
-    
-    /* === CAMBIO SOLO DE MÁRGENES A AZUL CLARO INTENSO CON BRILLO SUTIL === */
     div[data-testid="stNumberInput"] > div:first-of-type, 
     div[data-testid="stSelectbox"] > div:first-of-type > div {
         border: 2px solid #38BDF8 !important;
@@ -110,7 +108,6 @@ st.markdown("""
         border-color: #0EA5E9 !important;
         box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25), 0 0 14px rgba(56, 189, 248, 0.5) !important;
     }
-
     div[data-testid="stNumberInput"] div, 
     div[data-testid="stSelectbox"] div {
         border: none !important;
