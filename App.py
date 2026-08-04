@@ -1,6 +1,6 @@
 import streamlit as st
 
-# Configuración de página e inyección de CSS avanzado
+# Configuración de página e inyección de CSS con máxima especificidad
 st.set_page_config(page_title="Calculadora por Sectores", layout="centered")
 
 st.markdown("""
@@ -57,6 +57,7 @@ st.markdown("""
         border-radius: 8px !important;
         transition: all 0.25s ease-in-out !important;
         background: linear-gradient(135deg, #22252A, #0F1115) !important;
+        position: relative !important; /* Necesario para que el posicionamiento absoluto funcione dentro */
     }
 
     /* Quita los fondos grises y bordes que Streamlit superpone de forma interna */
@@ -68,6 +69,7 @@ st.markdown("""
 
     .stNumberInput input, .stSelectbox div[data-baseweb="select"] {
         color: #FFFFFF !important;
+        padding-right: 90px !important; /* Deja espacio a la derecha para que los números no choquen con los botones */
     }
 
     /* === EFECTO DE INTERACCIÓN Y BRILLO NEÓN EN EL RECUADRO PRINCIPAL === */
@@ -79,35 +81,44 @@ st.markdown("""
         box-shadow: 0 0 12px rgba(43, 108, 176, 0.55) !important;
     }
     
-    /* === NUEVA ALINEACIÓN HORIZONTAL, CENTRADA Y SEPARADA A LO ANCHO === */
-    /* Cambiamos el contenedor nativo de vertical a horizontal usando flex-direction: row */
+    /* === SOLUCIÓN ABSOLUTA: CONTROL TOTAL HORIZONTAL Y CENTRADO DE BOTONES === */
+    /* Reseteamos el contenedor rígido de Streamlit */
     div[data-testid="stNumberInputStepUpAndDown"] {
+        position: absolute !important;
+        top: 0 !important;
+        right: 12px !important;
         height: 100% !important;
-        display: flex !important;
-        flex-direction: row !important;      /* Alineación horizontal en vez de vertical */
-        justify-content: center !important;   /* Centra los botones en el bloque horizontal */
-        align-items: center !important;       /* Centra los botones perfectamente en el eje vertical */
-        padding: 0 12px !important;           /* Margen lateral para que no peguen al borde derecho */
-        gap: 16px !important;                 /* SEPARACIÓN A LO ANCHO entre el botón menos y más */
+        width: 70px !important; /* Ancho suficiente para contener ambos botones separados */
+        display: block !important; /* Rompe la rejilla/grid original de Streamlit */
         background: transparent !important;
-        border: none !important;
-        min-width: 75px !important;           /* Espacio garantizado a lo ancho para los controles */
     }
 
-    /* Estilo de los botones individuales ajustados a la nueva cuadrícula horizontal */
+    /* Forzamos a cada botón a ubicarse usando coordenadas fijas de ancho (left/right) y centrados verticalmente */
     button[data-testid="stNumberInputStepUp"], 
     button[data-testid="stNumberInputStepDown"] {
-        height: 24px !important;              /* Tamaño cuadrado y equilibrado */
+        position: absolute !important;
+        top: 50% !important;              /* Centrado vertical perfecto en el eje de la barra */
+        transform: translateY(-50%) !important; /* Ajuste preciso del eje vertical */
+        height: 24px !important;
         width: 24px !important;
         margin: 0 !important;
         border-radius: 4px !important;
         border: none !important;
-        color: #A0AEC0 !important;            /* Color gris suave original para los iconos */
+        color: #A0AEC0 !important;         /* Color gris suave por defecto */
         background-color: transparent !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
         transition: all 0.2s ease-in-out !important;
+    }
+
+    /* SEPARACIÓN MANUAL A LO ANCHO: Posicionamos el MENOS a la izquierda y el MÁS a la derecha */
+    button[data-testid="stNumberInputStepDown"] {
+        left: 0px !important; /* Botón de menos (-) a la izquierda del bloque de control */
+    }
+
+    button[data-testid="stNumberInputStepUp"] {
+        right: 0px !important; /* Botón de más (+) a la derecha del bloque de control */
     }
 
     /* Efecto al pasar el cursor (Hover) */
@@ -123,7 +134,7 @@ st.markdown("""
         background-color: #1A365D !important;
         color: #FFFFFF !important;
         box-shadow: 0 0 10px #1A365D, 0 0 20px #1A365D !important;
-        transform: scale(0.92);               /* Efecto sutil de pulsación */
+        transform: translateY(-50%) scale(0.92) !important; /* Mantiene el centrado vertical durante el click */
     }
     </style>
 """, unsafe_allow_html=True)
@@ -177,4 +188,3 @@ elif sector == "Comercio / Retail":
         ganancia_neta = precio_base - costo_producto
         st.success(f"Precio de Venta al Público: ${precio_final:.2f}")
         st.info(f"Ganancia neta por producto: ${ganancia_neta:.2f}")
- 
