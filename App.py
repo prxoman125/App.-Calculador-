@@ -10,25 +10,41 @@ st.markdown("""
         visibility: hidden !important;
     }
     
-    /* Separar los botones de más (+) y menos (-) manteniendo su tamaño original intacto */
+    /* Configurar el contenedor de los botones para que usen todo el alto y tengan separación entre ellos */
+    div[data-testid="stNumberInputStepUpAndDown"] {
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        padding: 0 !important;
+        gap: 4px !important; /* Espacio de separación entre los dos botones */
+    }
+
+    /* Estilos generales para ambos botones: expandirse al 100% de la celda y quitar bordes grises */
     button[data-testid="stNumberInputStepUp"], 
     button[data-testid="stNumberInputStepDown"] {
-        margin-top: 5px !important;
-        margin-bottom: 5px !important;
-        height: auto !important;
-        min-height: revert !important;
-        
-        /* Cambiar el fondo a azul oscuro y el texto/icono a blanco */
-        background-color: #0B3C5D !important;
-        color: white !important;
+        height: 100% !important;
+        flex-grow: 1 !important;
+        margin: 0 !important;
+        border-radius: 4px !important;
         border: none !important;
-    }
-    
-    /* Efecto al pasar el cursor (hover) para mejorar la experiencia de usuario */
-    button[data-testid="stNumberInputStepUp"]:hover, 
-    button[data-testid="stNumberInputStepDown"]:hover {
-        background-color: #07273D !important;
         color: white !important;
+    }
+
+    /* BOTÓN MENOS (-): Azul Oscuro Clásico */
+    button[data-testid="stNumberInputStepDown"] {
+        background-color: #1A365D !important;
+    }
+    button[data-testid="stNumberInputStepDown"]:hover {
+        background-color: #10243F !important;
+    }
+
+    /* BOTÓN MÁS (+): Azul Más Claro / Eléctrico para contrastar */
+    button[data-testid="stNumberInputStepUp"] {
+        background-color: #2B6CB0 !important;
+    }
+    button[data-testid="stNumberInputStepUp"]:hover {
+        background-color: #1D4ED8 !important;
     }
     </style>
 """, unsafe_allow_html=True)
