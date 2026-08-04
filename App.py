@@ -1,6 +1,6 @@
 import streamlit as st
 
-# Configuración de página e inyección de CSS avanzado
+# Configuración de página e inyección de CSS con máxima especificidad
 st.set_page_config(page_title="Calculadora por Sectores", layout="centered")
 
 st.markdown("""
@@ -10,20 +10,20 @@ st.markdown("""
         visibility: hidden !important;
     }
     
-    /* === BANNER DEL TÍTULO CON DEGRADADO INTERNO MONOCROMÁTICO Y SINCRONIZACIÓN TOTAL === */
+    /* === BANNER DEL TÍTULO PROFESIONAL CON DEGRADADO ARCOÍRIS Y VELOCIDAD SINCRONIZADA === */
     .titulo-container {
-        /* Degradado que viaja de tonos base a sus versiones intensas de la misma gama */
-        background: linear-gradient(135deg, #0A192F, #1E3A8A, #1E0B36, #5B21B6, #1A0B2E, #0A192F);
-        background-size: 400% 400%;
+        /* Fondo con degradado arcoíris extendido */
+        background: linear-gradient(135deg, #1E1B4B, #0F172A, #065F46, #78350F, #991B1B, #581C87, #1E1B4B);
+        background-size: 500% 500%;
         
-        /* Una única animación controla la velocidad del fondo, borde y sombra simultáneamente */
-        animation: neonSincronizadoAnimation 14s ease infinite;
+        /* Una única animación controla la velocidad del fondo, borde y brillo simultáneamente */
+        animation: neonRainbowSincronizado 16s ease infinite;
         
         padding: 24px;
         border-radius: 12px;
         text-align: center;
         margin-bottom: 28px;
-        border: 3px solid #0A192F;
+        border: 3px solid #1A365D;
     }
     
     .titulo-texto {
@@ -36,45 +36,63 @@ st.markdown("""
         padding: 0 !important;
     }
     
-    /* Transición exacta y a la misma velocidad para el fondo, el color del margen y su brillo neón */
-    @keyframes neonSincronizadoAnimation {
+    /* Animación del ciclo arcoíris: Sincroniza el fondo, el color del margen y el brillo neón */
+    @keyframes neonRainbowSincronizado {
         0%, 100% {
             background-position: 0% 50%;
-            border-color: #1E3A8A; /* Margen: Azul oscuro a azul intenso */
-            box-shadow: 0 0 22px rgba(30, 58, 138, 0.8);
+            border-color: #1E3A8A; /* Margen Azul */
+            box-shadow: 0 0 25px rgba(30, 58, 138, 0.9);
+        }
+        25% {
+            background-position: 25% 50%;
+            border-color: #065F46; /* Margen Verde */
+            box-shadow: 0 0 25px rgba(6, 95, 70, 0.9);
         }
         50% {
             background-position: 50% 50%;
-            border-color: #5B21B6; /* Margen: Morado oscuro a morado intenso */
-            box-shadow: 0 0 22px rgba(91, 33, 182, 0.8);
+            border-color: #B45309; /* Margen Amarillo/Ámbar */
+            box-shadow: 0 0 25px rgba(180, 83, 9, 0.9);
+        }
+        75% {
+            background-position: 75% 50%;
+            border-color: #991B1B; /* Margen Rojo */
+            box-shadow: 0 0 25px rgba(153, 27, 27, 0.9);
         }
     }
     
-    /* === CORRECCIÓN DEFINITIVA DE LAS BARRAS DE RESULTADOS (DEGRADADOS REALES) === */
-    /* Caja Verde (st.success) -> De verde claro/vivo a verde oscuro profundo */
-    .stAlert:has(div[data-testid="stNotificationContentSuccess"]),
+    /* === CORRECCIÓN INTEGRAL DE LAS BARRAS DE RESULTADOS (DEGRADADOS REALES) === */
+    /* Captura todos los contenedores de notificación posibles que usa Streamlit para sobrescribir el fondo plano */
+    div[data-testid="stNotificationV2"], 
+    div[role="alert"],
+    div.stAlert,
+    .element-container:has(div[role="alert"]) div[role="alert"] {
+        background-image: none !important;
+        background-color: transparent !important;
+        border-radius: 8px !important;
+    }
+
+    /* Caja Verde (st.success) -> Aplicación forzada de degradado verde claro a oscuro */
+    div[data-testid="stNotificationV2"]:has(svg[title="Success"]),
     div[role="alert"]:has(svg[title="Success"]),
-    div[data-testid="stNotificationV2"]:has(svg[title="Success"]) {
+    .stAlert:has(svg[title="Success"]) {
         background: linear-gradient(135deg, #10B981, #064E3B) !important;
+        border: 2px solid #10B981 !important;
         color: #FFFFFF !important;
-        border: 1px solid #10B981 !important;
-        border-radius: 8px !important;
-        box-shadow: 0 4px 10px rgba(6, 78, 59, 0.3) !important;
+        box-shadow: 0 4px 12px rgba(6, 78, 59, 0.4) !important;
     }
     
-    /* Caja Azul (st.info) -> De azul claro/vivo a azul oscuro profundo */
-    .stAlert:has(div[data-testid="stNotificationContentInfo"]),
+    /* Caja Azul (st.info) -> Aplicación forzada de degradado azul claro a oscuro */
+    div[data-testid="stNotificationV2"]:has(svg[title="Info"]),
     div[role="alert"]:has(svg[title="Info"]),
-    div[data-testid="stNotificationV2"]:has(svg[title="Info"]) {
+    .stAlert:has(svg[title="Info"]) {
         background: linear-gradient(135deg, #3B82F6, #1E3A8A) !important;
+        border: 2px solid #3B82F6 !important;
         color: #FFFFFF !important;
-        border: 1px solid #3B82F6 !important;
-        border-radius: 8px !important;
-        box-shadow: 0 4px 10px rgba(30, 58, 138, 0.3) !important;
+        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.4) !important;
     }
     
-    /* Forzar a que todo el contenido de texto dentro de los bloques de resultado sea blanco */
-    .stAlert p, .stAlert div, div[role="alert"] p, div[role="alert"] div {
+    /* Asegurar que el texto e iconos dentro de cualquier tipo de bloque de resultado sea blanco */
+    .stAlert p, .stAlert div, div[role="alert"] p, div[role="alert"] div, div[data-testid="stNotificationContent"] span {
         color: #FFFFFF !important;
     }
 
