@@ -1,6 +1,6 @@
 import streamlit as st
 
-# Configuración de página e inyección de CSS avanzado
+# Configuración de página e inyección de CSS avanzado e infalible
 st.set_page_config(page_title="Calculadora por Sectores", layout="centered")
 
 st.markdown("""
@@ -10,12 +10,12 @@ st.markdown("""
         visibility: hidden !important;
     }
     
-    /* === BANNER DEL TÍTULO PROFESIONAL CON DEGRADADO TRIPLE Y BORDE NEÓN OSCURO === */
+    /* === BANNER DEL TÍTULO PROFESIONAL CON DEGRADADO ARCOÍRIS OSCURO Y MÁXIMO BRILLO NEÓN === */
     .titulo-container {
-        /* Degradado fluido con un rosa vino/negro extremadamente oscuro y discreto */
-        background: linear-gradient(135deg, #0A192F, #1E0B36, #2E081A, #0A192F);
-        background-size: 400% 400%;
-        animation: neonTripleGradientAnimation 10s ease infinite;
+        /* Secuencia de colores oscuros siguiendo el orden del círculo cromático (Arcoíris Oscuro) */
+        background: linear-gradient(135deg, #1A0B2E, #0A192F, #062F22, #292510, #3B110A, #1A0B2E);
+        background-size: 500% 500%;
+        animation: neonRainbowAnimation 12s ease infinite;
         padding: 24px;
         border-radius: 12px;
         text-align: center;
@@ -33,25 +33,71 @@ st.markdown("""
         padding: 0 !important;
     }
     
-    /* Animación cíclica para Fondo, Borde y Resplandor (Azul -> Morado -> Rosa Vino Oscuro -> Azul) */
-    @keyframes neonTripleGradientAnimation {
+    /* Animación cíclica de fondo y brillo neón en el borde (Arcoíris sutil y elegante) */
+    @keyframes neonRainbowAnimation {
         0%, 100% {
             background-position: 0% 50%;
             border-color: #1A365D; /* Azul oscuro neón */
-            box-shadow: 0 0 15px rgba(26, 54, 93, 0.6);
+            box-shadow: 0 0 22px rgba(26, 54, 93, 0.85);
         }
-        33% {
-            background-position: 50% 50%;
-            border-color: #4C1D95; /* Morado oscuro neón */
-            box-shadow: 0 0 15px rgba(76, 29, 149, 0.6);
+        20% {
+            background-position: 20% 50%;
+            border-color: #047857; /* Verde neón oscuro */
+            box-shadow: 0 0 22px rgba(4, 120, 87, 0.85);
         }
-        66% {
-            background-position: 100% 50%;
-            border-color: #5C0B2B; /* Rosa vino/oscuro neón (atenuado) */
-            box-shadow: 0 0 15px rgba(92, 11, 43, 0.5);
+        40% {
+            background-position: 40% 50%;
+            border-color: #B45309; /* Amarillo/Ámbar oscuro neón */
+            box-shadow: 0 0 22px rgba(180, 83, 9, 0.85);
+        }
+        60% {
+            background-position: 60% 50%;
+            border-color: #B91C1C; /* Rojo oscuro neón */
+            box-shadow: 0 0 22px rgba(185, 28, 28, 0.85);
+        }
+        80% {
+            background-position: 80% 50%;
+            border-color: #6D28D9; /* Morado oscuro neón */
+            box-shadow: 0 0 22px rgba(109, 40, 217, 0.85);
         }
     }
     
+    /* === BARRAS DE RESULTADOS ACTUALIZADAS CON DEGRADADO === */
+    /* Caja st.success (Verde claro a verde oscuro degradado) */
+    div[data-testid="stNotificationV2"]:has(div[class*="st-emotion-cache-"]) {
+        border-radius: 8px !important;
+        border: none !important;
+    }
+    
+    /* Apuntar específicamente a los bloques de alerta verde (Success) */
+    div[data-testid="element-container"]:has(.element-container) + div div[role="alert"]:contains("$") {
+        border: 1px solid #10B981 !important;
+    }
+
+    /* Redefinición global de las alertas nativas de Streamlit para aplicar los degradados */
+    /* Caja Verde (st.success) */
+    .stAlert:has(div[data-testid="stNotificationContentSuccess"]),
+    div[role="alert"]:has(svg[title="Success"]) {
+        background: linear-gradient(135deg, #10B981, #064E3B) !important; /* Verde claro a oscuro */
+        color: #FFFFFF !important;
+        border: 1px solid #059669 !important;
+        border-radius: 8px !important;
+    }
+    
+    /* Caja Azul (st.info) */
+    .stAlert:has(div[data-testid="stNotificationContentInfo"]),
+    div[role="alert"]:has(svg[title="Info"]) {
+        background: linear-gradient(135deg, #3B82F6, #1E3A8A) !important; /* Azul claro a oscuro */
+        color: #FFFFFF !important;
+        border: 1px solid #2563EB !important;
+        border-radius: 8px !important;
+    }
+    
+    /* Asegurar que el texto dentro de las alertas sea blanco para contrastar con los degradados oscuros */
+    .stAlert p, .stAlert div {
+        color: #FFFFFF !important;
+    }
+
     /* === ESTILO PARA EL RECUADRO FÍSICO CON DEGRADADO GRIS OSCURO A NEGRO === */
     div[data-testid="stNumberInput"] > div:first-of-type, 
     div[data-testid="stSelectbox"] > div:first-of-type > div {
@@ -62,7 +108,6 @@ st.markdown("""
         position: relative !important;
     }
 
-    /* Quita los fondos grises y bordes que Streamlit superpone de forma interna */
     div[data-testid="stNumberInput"] div, 
     div[data-testid="stSelectbox"] div {
         border: none !important;
@@ -72,12 +117,11 @@ st.markdown("""
     /* === ALINEACIÓN AL CENTRO PARA LOS NÚMEROS === */
     .stNumberInput input {
         color: #FFFFFF !important;
-        text-align: center !important; /* Fuerza a los números a colocarse en el centro */
-        padding-left: 80px !important;  /* Equilibrio visual izquierdo debido al espacio de botones */
-        padding-right: 90px !important; /* Espacio derecho óptimo para que no tape los botones */
+        text-align: center !important;
+        padding-left: 80px !important;
+        padding-right: 90px !important;
     }
     
-    /* Centrado de la caja selectora de texto del menú */
     .stSelectbox div[data-baseweb="select"] {
         color: #FFFFFF !important;
     }
@@ -102,7 +146,6 @@ st.markdown("""
         background: transparent !important;
     }
 
-    /* Forzamos a cada botón a tener el mismo tamaño y centrado vertical exacto */
     button[data-testid="stNumberInputStepUp"], 
     button[data-testid="stNumberInputStepDown"] {
         position: absolute !important;
@@ -121,23 +164,20 @@ st.markdown("""
         transition: all 0.2s ease-in-out !important;
     }
 
-    /* UBICACIÓN HORIZONTAL SIMÉTRICA (A lo ancho de la barra) */
     button[data-testid="stNumberInputStepDown"] {
-        left: 6px !important;  /* El botón de menos (-) visible a la izquierda */
+        left: 6px !important;
     }
 
     button[data-testid="stNumberInputStepUp"] {
-        right: 6px !important; /* El botón de más (+) visible a la derecha */
+        right: 6px !important;
     }
 
-    /* Efecto al pasar el cursor (Hover) */
     button[data-testid="stNumberInputStepUp"]:hover, 
     button[data-testid="stNumberInputStepDown"]:hover {
         color: #FFFFFF !important;
         background-color: rgba(255, 255, 255, 0.05) !important;
     }
 
-    /* EFECTO CLICK: Destello neón azul oscuro al presionar el botón */
     button[data-testid="stNumberInputStepUp"]:active, 
     button[data-testid="stNumberInputStepDown"]:active {
         background-color: #1A365D !important;
@@ -197,3 +237,4 @@ elif sector == "Comercio / Retail":
         ganancia_neta = precio_base - costo_producto
         st.success(f"Precio de Venta al Público: ${precio_final:.2f}")
         st.info(f"Ganancia neta por producto: ${ganancia_neta:.2f}")
+ 
