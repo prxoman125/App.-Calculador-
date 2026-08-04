@@ -35,28 +35,15 @@ st.markdown("""
         font-weight: 700 !important;
     }
     .titulo-container {
-  background: linear-gradient(135deg, #00f0ff 0%, #8b00ff 50%, #0033cc 100%);
-  background-size: 300% 300%;
-  animation: fondoAzulClaroOscuro 6s ease-in-out infinite;
-  padding: 24px;
-  border-radius: 12px;
-  text-align: center;
-  margin-bottom: 28px;
-  border: 3px solid #00f0ff;
-}
-
-@keyframes fondoAzulClaroOscuro {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
+      background: linear-gradient(135deg, #00f0ff 0%, #8b00ff 50%, #0033cc 100%);
+      background-size: 300% 300%;
+      animation: fondoAzulClaroOscuro 6s ease-in-out infinite;
+      padding: 24px;
+      border-radius: 12px;
+      text-align: center;
+      margin: 0 !important;
+      margin-bottom: 0px !important;
+      border: 3px solid #00f0ff;
     }
     .titulo-texto {
         color: #FFFFFF !important;
@@ -70,23 +57,10 @@ st.markdown("""
         padding: 0 !important;
         display: inline-block;
     }
-    /* Fondo oscuro -> claro y margen neón sincronizado */
     @keyframes fondoAzulClaroOscuro {
-        0% {
-            background-position: 0% 50%;
-            border-color: #020617;
-            box-shadow: 0 0 10px rgba(2, 6, 23, 0.8), 0 0 20px rgba(30, 58, 138, 0.4);
-        }
-        50% {
-            background-position: 100% 50%;
-            border-color: #60a5fa;
-            box-shadow: 0 0 12px rgba(59, 130, 246, 0.9), 0 0 25px rgba(96, 165, 250, 0.6);
-        }
-        100% {
-            background-position: 0% 50%;
-            border-color: #020617;
-            box-shadow: 0 0 10px rgba(2, 6, 23, 0.8), 0 0 20px rgba(30, 58, 138, 0.4);
-        }
+      0% { background-position: 0% 50%; border-color: #020617; box-shadow: 0 0 10px rgba(2, 6, 23, 0.8), 0 0 20px rgba(30, 58, 138, 0.4); }
+      50% { background-position: 100% 50%; border-color: #60a5fa; box-shadow: 0 0 12px rgba(59, 130, 246, 0.9), 0 0 25px rgba(96, 165, 250, 0.6); }
+      100% { background-position: 0% 50%; border-color: #020617; box-shadow: 0 0 10px rgba(2, 6, 23, 0.8), 0 0 20px rgba(30, 58, 138, 0.4); }
     }
     div[data-testid="stNotificationV2"], 
     div[role="alert"],
@@ -232,7 +206,6 @@ if sector in ["Tecnología / Software", "Technology / Software"]:
         total = usuarios * costo_por_usuario * (1 - descuento / 100)
         st.success(txt["tech_res"].format(total))
         guardar_en_tabla(sector, f"{usuarios}u x ${costo_por_usuario} -{descuento}%", f"${total:.2f}")
-
 elif sector in ["Manufactura", "Manufacturing"]:
     st.subheader(txt["man_sub"])
     unidades = st.number_input(txt["man_u"], min_value=1, value=1000, step=10)
@@ -243,7 +216,6 @@ elif sector in ["Manufactura", "Manufacturing"]:
         st.success(txt["man_res1"].format(total))
         st.info(txt["man_res2"].format(total / unidades))
         guardar_en_tabla(sector, f"{unidades}u | mat ${costo_material} + fijo ${costo_operativo_fijo}", f"${total:.2f}")
-
 elif sector in ["Comercio / Retail", "Retail / Commerce"]:
     st.subheader(txt["com_sub"])
     costo_producto = st.number_input(txt["com_c"], min_value=0.0, value=50.0, step=1.0)
@@ -255,7 +227,6 @@ elif sector in ["Comercio / Retail", "Retail / Commerce"]:
         st.success(txt["com_res1"].format(precio_final))
         st.info(txt["com_res2"].format(precio_base - costo_producto))
         guardar_en_tabla(sector, f"Costo ${costo_producto} + {margen_ganancia}% + IVA {impuesto}%", f"${precio_final:.2f}")
-
 elif sector in ["Salud / Clínica", "Healthcare / Clinic"]:
     st.subheader(txt["sal_sub"])
     consultas = st.number_input(txt["sal_c"], min_value=1, value=120, step=5)
@@ -267,7 +238,6 @@ elif sector in ["Salud / Clínica", "Healthcare / Clinic"]:
         st.success(txt["sal_res1"].format(ingresos))
         st.info(txt["sal_res2"].format(ganancia))
         guardar_en_tabla(sector, f"{consultas} cons x ${precio_consulta} - ${costo_operativo} costo", f"${ganancia:.2f}")
-
 elif sector in ["Construcción / Obras", "Construction / Building"]:
     st.subheader(txt["con_sub"])
     metros = st.number_input(txt["con_m"], min_value=1.0, value=150.0, step=10.0)
@@ -282,7 +252,6 @@ elif sector in ["Construcción / Obras", "Construction / Building"]:
 
 st.divider()
 st.subheader(txt["hist_titulo"])
-
 if st.session_state.historial:
     df = pd.DataFrame(st.session_state.historial)
     st.dataframe(df, use_container_width=True, hide_index=True)
@@ -290,4 +259,4 @@ if st.session_state.historial:
         st.session_state.historial = []
         st.rerun()
 else:
-    st.info(txt["hist_vacio"])
+    st.info(txt["hist_vacio"]) 
