@@ -10,7 +10,7 @@ st.markdown("""
     .question-text { font-size:32px !important; font-weight: bold; color: #1E88E5; text-align: center; }
     .timer-text { font-size:60px !important; font-weight: bold; color: #E53935; text-align: center; }
     </style>
-""", unsafe_index=True)
+""", unsafe_allow_html=True) # <-- AQUÍ SE CORRIGIÓ EL PARÁMETRO
 
 st.title("🔔 Control de Retos - Cultura General")
 
