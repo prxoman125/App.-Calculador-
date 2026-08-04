@@ -10,18 +10,22 @@ st.markdown("""
         visibility: hidden !important;
     }
     
-    /* === BANNER DEL TÍTULO PROFESIONAL CON DEGRADADO NEÓN ANIMADO === */
+    /* === BANNER DEL TÍTULO PROFESIONAL CON DEGRADADO Y BORDE NEÓN OSCURO === */
     .titulo-container {
-        background: linear-gradient(-45deg, #1A365D, #2B6CB0, #4C1D95, #2E1065);
-        background-size: 400% 400%;
-        animation: gradientAnimation 12s ease infinite;
+        /* Degradado de fondo con tonos más oscuros para que resalte más la transición */
+        background: linear-gradient(135deg, #0A192F, #120D24, #1A0B2E, #0A192F);
+        background-size: 300% 300%;
+        
+        /* Animación unificada para el fondo y el borde */
+        animation: neonGradientAnimation 8s ease infinite;
+        
         padding: 24px;
         border-radius: 12px;
         text-align: center;
         margin-bottom: 28px;
-        border: 2px solid #2B6CB0;
-        /* Brillo neón sutil combinado entre azul y morado */
-        box-shadow: 0 0 15px rgba(43, 108, 176, 0.4), 0 0 25px rgba(76, 29, 149, 0.2);
+        
+        /* Borde inicial grueso de 3px */
+        border: 3px solid #1A365D;
     }
     
     .titulo-texto {
@@ -34,11 +38,23 @@ st.markdown("""
         padding: 0 !important;
     }
     
-    /* Animación suave para la transición del degradado azul oscuro -> morado oscuro */
-    @keyframes gradientAnimation {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
+    /* Animación fluida para fondo, borde y sombra (Azul oscuro neón <-> Morado oscuro neón) */
+    @keyframes neonGradientAnimation {
+        0% {
+            background-position: 0% 50%;
+            border-color: #1A365D; /* Azul oscuro neón */
+            box-shadow: 0 0 15px rgba(26, 54, 93, 0.6);
+        }
+        50% {
+            background-position: 100% 50%;
+            border-color: #4C1D95; /* Morado oscuro neón */
+            box-shadow: 0 0 15px rgba(76, 29, 149, 0.6);
+        }
+        100% {
+            background-position: 0% 50%;
+            border-color: #1A365D;
+            box-shadow: 0 0 15px rgba(26, 54, 93, 0.6);
+        }
     }
     
     /* === ESTILO DEFINITIVO PARA EL RECUADRO FISICO (SÓLO LA CAJA) === */
