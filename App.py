@@ -1,6 +1,6 @@
 import streamlit as st
 
-# Configuración de página e inyección de CSS con máxima especificidad
+# Configuración de página e inyección de CSS avanzado
 st.set_page_config(page_title="Calculadora por Sectores", layout="centered")
 
 st.markdown("""
@@ -10,11 +10,12 @@ st.markdown("""
         visibility: hidden !important;
     }
     
-    /* === BANNER DEL TÍTULO PROFESIONAL CON DEGRADADO Y BORDE NEÓN OSCURO === */
+    /* === BANNER DEL TÍTULO PROFESIONAL CON DEGRADADO TRIPLE Y BORDE NEÓN EN CICLO === */
     .titulo-container {
-        background: linear-gradient(135deg, #0A192F, #120D24, #1A0B2E, #0A192F);
-        background-size: 300% 300%;
-        animation: neonGradientAnimation 8s ease infinite;
+        /* Degradado fluido que incluye los tres tonos oscuros neón */
+        background: linear-gradient(135deg, #0A192F, #1E0B36, #3B0D2A, #0A192F);
+        background-size: 400% 400%;
+        animation: neonTripleGradientAnimation 10s ease infinite;
         padding: 24px;
         border-radius: 12px;
         text-align: center;
@@ -32,21 +33,22 @@ st.markdown("""
         padding: 0 !important;
     }
     
-    @keyframes neonGradientAnimation {
-        0% {
+    /* Animación cíclica para Fondo, Borde y Resplandor (Azul -> Morado -> Rosa Morado -> Azul) */
+    @keyframes neonTripleGradientAnimation {
+        0%, 100% {
             background-position: 0% 50%;
-            border-color: #1A365D;
+            border-color: #1A365D; /* Azul oscuro neón */
             box-shadow: 0 0 15px rgba(26, 54, 93, 0.6);
         }
-        50% {
-            background-position: 100% 50%;
-            border-color: #4C1D95;
+        33% {
+            background-position: 50% 50%;
+            border-color: #4C1D95; /* Morado oscuro neón */
             box-shadow: 0 0 15px rgba(76, 29, 149, 0.6);
         }
-        100% {
-            background-position: 0% 50%;
-            border-color: #1A365D;
-            box-shadow: 0 0 15px rgba(26, 54, 93, 0.6);
+        66% {
+            background-position: 100% 50%;
+            border-color: #831843; /* Rosa morado oscuro neón */
+            box-shadow: 0 0 15px rgba(131, 24, 67, 0.6);
         }
     }
     
@@ -57,7 +59,7 @@ st.markdown("""
         border-radius: 8px !important;
         transition: all 0.25s ease-in-out !important;
         background: linear-gradient(135deg, #22252A, #0F1115) !important;
-        position: relative !important; /* Necesario para que el posicionamiento absoluto funcione dentro */
+        position: relative !important;
     }
 
     /* Quita los fondos grises y bordes que Streamlit superpone de forma interna */
@@ -69,7 +71,7 @@ st.markdown("""
 
     .stNumberInput input, .stSelectbox div[data-baseweb="select"] {
         color: #FFFFFF !important;
-        padding-right: 90px !important; /* Deja espacio a la derecha para que los números no choquen con los botones */
+        padding-right: 110px !important; /* Espacio extra a la derecha para que no tape los botones */
     }
 
     /* === EFECTO DE INTERACCIÓN Y BRILLO NEÓN EN EL RECUADRO PRINCIPAL === */
@@ -81,30 +83,29 @@ st.markdown("""
         box-shadow: 0 0 12px rgba(43, 108, 176, 0.55) !important;
     }
     
-    /* === SOLUCIÓN ABSOLUTA: CONTROL TOTAL HORIZONTAL Y CENTRADO DE BOTONES === */
-    /* Reseteamos el contenedor rígido de Streamlit */
+    /* === CONTROL ABSOLUTO HORIZONTAL COMPLETO (AMBOS BOTONES VISIBLES) === */
     div[data-testid="stNumberInputStepUpAndDown"] {
         position: absolute !important;
         top: 0 !important;
         right: 12px !important;
         height: 100% !important;
-        width: 70px !important; /* Ancho suficiente para contener ambos botones separados */
-        display: block !important; /* Rompe la rejilla/grid original de Streamlit */
+        width: 80px !important; /* Espacio óptimo para contener ambos botones a lo ancho */
+        display: block !important;
         background: transparent !important;
     }
 
-    /* Forzamos a cada botón a ubicarse usando coordenadas fijas de ancho (left/right) y centrados verticalmente */
+    /* Forzamos a cada botón a tener el mismo tamaño y centrado vertical exacto */
     button[data-testid="stNumberInputStepUp"], 
     button[data-testid="stNumberInputStepDown"] {
         position: absolute !important;
-        top: 50% !important;              /* Centrado vertical perfecto en el eje de la barra */
-        transform: translateY(-50%) !important; /* Ajuste preciso del eje vertical */
+        top: 50% !important;
+        transform: translateY(-50%) !important;
         height: 24px !important;
         width: 24px !important;
         margin: 0 !important;
         border-radius: 4px !important;
         border: none !important;
-        color: #A0AEC0 !important;         /* Color gris suave por defecto */
+        color: #A0AEC0 !important;
         background-color: transparent !important;
         display: flex !important;
         align-items: center !important;
@@ -112,13 +113,13 @@ st.markdown("""
         transition: all 0.2s ease-in-out !important;
     }
 
-    /* SEPARACIÓN MANUAL A LO ANCHO: Posicionamos el MENOS a la izquierda y el MÁS a la derecha */
+    /* UBICACIÓN HORIZONTAL SIMÉTRICA (A lo ancho de la barra) */
     button[data-testid="stNumberInputStepDown"] {
-        left: 0px !important; /* Botón de menos (-) a la izquierda del bloque de control */
+        left: 6px !important;  /* El botón de menos (-) visible a la izquierda */
     }
 
     button[data-testid="stNumberInputStepUp"] {
-        right: 0px !important; /* Botón de más (+) a la derecha del bloque de control */
+        right: 6px !important; /* El botón de más (+) visible a la derecha */
     }
 
     /* Efecto al pasar el cursor (Hover) */
@@ -134,7 +135,7 @@ st.markdown("""
         background-color: #1A365D !important;
         color: #FFFFFF !important;
         box-shadow: 0 0 10px #1A365D, 0 0 20px #1A365D !important;
-        transform: translateY(-50%) scale(0.92) !important; /* Mantiene el centrado vertical durante el click */
+        transform: translateY(-50%) scale(0.92) !important;
     }
     </style>
 """, unsafe_allow_html=True)
