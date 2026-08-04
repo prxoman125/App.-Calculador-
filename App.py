@@ -43,7 +43,8 @@ st.markdown("""
       text-align: center;
       margin: 0 !important;
       margin-bottom: 0px !important;
-      border: 3px solid #00f0ff;
+      border: none !important;
+      box-shadow: none !important;
     }
     .titulo-texto {
         color: #FFFFFF !important;
@@ -51,16 +52,16 @@ st.markdown("""
         -webkit-text-fill-color: #FFFFFF !important;
         font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         font-weight: 800;
-        font-size: 30px;
+        font-size: 26px !important;
         letter-spacing: -0.5px;
         margin: 0 !important;
         padding: 0 !important;
         display: inline-block;
     }
     @keyframes fondoAzulClaroOscuro {
-      0% { background-position: 0% 50%; border-color: #020617; box-shadow: 0 0 10px rgba(2, 6, 23, 0.8), 0 0 20px rgba(30, 58, 138, 0.4); }
-      50% { background-position: 100% 50%; border-color: #60a5fa; box-shadow: 0 0 12px rgba(59, 130, 246, 0.9), 0 0 25px rgba(96, 165, 250, 0.6); }
-      100% { background-position: 0% 50%; border-color: #020617; box-shadow: 0 0 10px rgba(2, 6, 23, 0.8), 0 0 20px rgba(30, 58, 138, 0.4); }
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
     div[data-testid="stNotificationV2"], 
     div[role="alert"],
@@ -259,4 +260,4 @@ if st.session_state.historial:
         st.session_state.historial = []
         st.rerun()
 else:
-    st.info(txt["hist_vacio"]) 
+    st.info(txt["hist_vacio"])
