@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime, timedelta, timezone
+import io
 
 st.set_page_config(page_title="Calculadora por Sectores / Sector Calculator", layout="centered")
 
@@ -12,7 +13,7 @@ if "historial" not in st.session_state:
 ZONA_MEXICO = timezone(timedelta(hours=-6))
 
 def guardar_en_tabla(sector, detalle, resultado):
-    if len(st.session_state.historial) >= 15:
+    if len(st.session_state.historial) >= 25:
         st.session_state.historial.pop(0)
     hora_mexico = datetime.now(ZONA_MEXICO).strftime("%H:%M:%S")
     st.session_state.historial.append({
@@ -22,159 +23,177 @@ def guardar_en_tabla(sector, detalle, resultado):
         "Resultado": resultado
     })
 
+def generar_excel(df):
+    output = io.BytesIO()
+    with pd.ExcelWriter(output, engine='openpyxl') as writer:
+        df.to_excel(writer, index=False, sheet_name='Registros')
+    output.seek(0)
+    return output
+
+def generar_pdf(df):
+    output = io.BytesIO()
+    try:
+        from reportlab.lib.pagesizes import letter
+        from reportlab.pdfgen import canvas
+        from reportlab.lib import colors
+        c = canvas.Canvas(output, pagesize=letter)
+        width, height = letter
+        c.setFillColor(colors.HexColor("#000000"))
+        c.rect(0,0,width,height,fill=1)
+        c.setFillColor(colors.white)
+        c.setFont("Helvetica-Bold", 14)
+        c.drawString(40, height-50, "Tabla de Registros - Calculadora por Sectores")
+        c.setFont("Helvetica", 9)
+        y = height-80
+        # header
+        cols = list(df.columns)
+        x_pos = [40, 110, 240, 400]
+        for i, col in enumerate(cols):
+            c.drawString(x_pos[i], y, str(col))
+        y -= 15
+        c.setStrokeColor(colors.white)
+        c.line(40, y, width-40, y)
+        y -= 10
+        for _, row in df.iterrows():
+            if y < 50:
+                c.showPage()
+                c.setFillColor(colors.HexColor("#000000"))
+                c.rect(0,0,width,height,fill=1)
+                c.setFillColor(colors.white)
+                y = height-50
+            for i, col in enumerate(cols):
+                c.drawString(x_pos[i], y, str(row[col])[:35])
+            y -= 12
+        c.save()
+    except:
+        # fallback txt inside pdf-like
+        c = None
+        output.write(f"Tabla de Registros\n{df.to_string()}".encode())
+    output.seek(0)
+    return output
+
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
-    * { font-family: 'Inter', sans-serif !important; }
-    #MainMenu, header, footer { visibility: hidden !important; }
-    
-    .stApp {
+    * { font-family: 'Inter', sans-serif!important; }
+    #MainMenu, header, footer { visibility: hidden!important; }
+
+    /* === ELIMINAR MARGEN ROJO INTERIOR PREDETERMINADO DE STREAMLIT === */
+    input:focus, textarea:focus, select:focus, div:focus {
+        outline: none!important;
+        box-shadow: none!important;
+    }
+    div[data-testid="stNumberInput"] input:focus {
+        outline: none!important;
+        border: none!important;
+        box-shadow: none!important;
+    }
+    div[data-baseweb="input"], div[data-baseweb="base-input"] {
+        border: none!important;
+        box-shadow: none!important;
+        background: transparent!important;
+    }
+    div[data-baseweb="input"]:focus-within, div[data-baseweb="base-input"]:focus-within {
+        border: none!important;
+        box-shadow: none!important;
+    }
+    input[data-baseweb="input"] {
+        border: none!important;
+        box-shadow: none!important;
+    }
+    /* Quitar borde rojo de error / invalid */
+    div[data-testid="stNumberInput"] > div:first-of-type:has(input:invalid) {
+        border-color: rgba(255,255,255,0.15)!important;
+        box-shadow: none!important;
+    }
+
+   .stApp {
         background: radial-gradient(1200px 600px at 20% -10%, #2A2A2A 0%, transparent 60%),
                     radial-gradient(1000px 500px at 90% 110%, #4A4A4A 0%, transparent 60%),
-                    linear-gradient(135deg, #000000 0%, #141414 35%, #2E2E2E 100%) !important;
+                    linear-gradient(135deg, #000000 0%, #141414 35%, #2E2E2E 100%)!important;
     }
-    [data-testid="stAppViewContainer"] {
-        background: transparent !important;
+    [data-testid="stAppViewContainer"] { background: transparent!important; }
+   .block-container { padding-top: 2.5rem!important; padding-bottom: 2.5rem!important; }
+    p, label, span, div[data-testid="stMarkdownContainer"] p,
+   .st-emotion-cache-1gulkj5 p, [data-testid="stWidgetLabel"] p {
+        color: #E5E7EB!important; letter-spacing: 0.2px!important;
     }
-    .block-container {
-        padding-top: 2.5rem !important;
-        padding-bottom: 2.5rem !important;
+    [data-testid="stWidgetLabel"] p {
+        font-weight: 600!important; font-size: 13px!important;
+        text-transform: uppercase!important; letter-spacing: 0.8px!important; color: #9CA3AF!important;
     }
-    p, label, span, div[data-testid="stMarkdownContainer"] p, 
-    .st-emotion-cache-1gulkj5 p, [data-testid="stWidgetLabel"] p {
-        color: #E5E7EB !important;
-        letter-spacing: 0.2px !important;
-    }
-    [data-testid="stWidgetLabel"] p { 
-        font-weight: 600 !important; 
-        font-size: 13px !important; 
-        text-transform: uppercase !important; 
-        letter-spacing: 0.8px !important; 
-        color: #9CA3AF !important; 
-    }
-    
     h3, [data-testid="stSubheader"] {
-        background: linear-gradient(135deg, rgba(26,26,26,0.9) 0%, rgba(45,45,45,0.85) 100%) !important;
-        backdrop-filter: blur(12px) !important;
-        -webkit-backdrop-filter: blur(12px) !important;
-        border: 1px solid rgba(255,255,255,0.15) !important;
-        border-left: 3px solid #FFFFFF !important;
-        border-radius: 12px !important;
-        padding: 14px 18px !important;
-        color: #FFFFFF !important;
-        font-weight: 800 !important;
-        font-size: 16px !important;
-        letter-spacing: -0.2px !important;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05) inset, 0 1px 0 rgba(255,255,255,0.1) inset !important;
+        background: linear-gradient(135deg, rgba(26,26,26,0.9) 0%, rgba(45,45,45,0.85) 100%)!important;
+        backdrop-filter: blur(12px)!important; -webkit-backdrop-filter: blur(12px)!important;
+        border: 1px solid rgba(255,255,255,0.15)!important; border-left: 3px solid #FFFFFF!important;
+        border-radius: 12px!important; padding: 14px 18px!important; color: #FFFFFF!important;
+        font-weight: 800!important; font-size: 16px!important;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05) inset, 0 1px 0 rgba(255,255,255,0.1) inset!important;
     }
-    
-    .titulo-container {
+   .titulo-container {
       background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(30,30,30,0.9) 50%, rgba(70,70,70,0.8) 100%);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      padding: 28px 24px;
-      border-radius: 16px;
-      text-align: center;
-      border: 1px solid rgba(255,255,255,0.12) !important;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06) inset, 0 1px 0 rgba(255,255,255,0.15) inset !important;
-      position: relative;
-      overflow: hidden;
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      padding: 28px 24px; border-radius: 16px; text-align: center;
+      border: 1px solid rgba(255,255,255,0.12)!important;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06) inset, 0 1px 0 rgba(255,255,255,0.15) inset!important;
+      position: relative; overflow: hidden;
     }
-    .titulo-container::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0; right: 0;
-        height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-    }
-    .titulo-texto {
-        color: #FFFFFF !important;
-        font-weight: 800 !important;
-        font-size: 27px !important;
-        letter-spacing: -0.6px !important;
-        line-height: 1.2 !important;
-        text-shadow: 0 2px 10px rgba(0,0,0,0.5) !important;
-    }
-    
+   .titulo-texto { color: #FFFFFF!important; font-weight: 800!important; font-size: 27px!important; }
     div[data-testid="stDataFrame"] {
-        background: rgba(20,20,20,0.7) !important;
-        backdrop-filter: blur(10px) !important;
-        border: 1px solid rgba(255,255,255,0.1) !important;
-        border-radius: 12px !important;
-        overflow: hidden !important;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.4) !important;
+        background: rgba(20,20,20,0.7)!important; backdrop-filter: blur(10px)!important;
+        border: 1px solid rgba(255,255,255,0.1)!important; border-radius: 12px!important;
+        overflow: hidden!important; box-shadow: 0 8px 24px rgba(0,0,0,0.4)!important;
     }
-    
     div[data-testid="stNotificationV2"], div[role="alert"], div.stAlert {
-        backdrop-filter: blur(16px) !important;
-        border-radius: 12px !important;
-        padding: 16px !important;
+        backdrop-filter: blur(16px)!important; border-radius: 12px!important; padding: 16px!important;
     }
-    div[data-testid="stNotificationV2"]:has(svg[title="Success"]),
-    div[role="alert"]:has(svg[title="Success"]) {
-        background: linear-gradient(135deg, rgba(38,38,38,0.95) 0%, rgba(10,10,10,0.98) 100%) !important;
-        border: 1px solid rgba(255,255,255,0.9) !important;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 20px rgba(255,255,255,0.15), 0 0 0 1px rgba(255,255,255,0.1) inset !important;
+    div[data-testid="stNotificationV2"]:has(svg[title="Success"]), div[role="alert"]:has(svg[title="Success"]) {
+        background: linear-gradient(135deg, rgba(38,38,38,0.95) 0%, rgba(10,10,10,0.98) 100%)!important;
+        border: 1px solid rgba(255,255,255,0.9)!important;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 20px rgba(255,255,255,0.15)!important;
     }
-    div[data-testid="stNotificationV2"]:has(svg[title="Info"]),
-    div[role="alert"]:has(svg[title="Info"]) {
-        background: linear-gradient(135deg, rgba(60,60,60,0.9) 0%, rgba(30,30,30,0.95) 100%) !important;
-        border: 1px solid rgba(229,231,235,0.5) !important;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 16px rgba(255,255,255,0.08) !important;
+    div[data-testid="stNotificationV2"]:has(svg[title="Info"]), div[role="alert"]:has(svg[title="Info"]) {
+        background: linear-gradient(135deg, rgba(60,60,60,0.9) 0%, rgba(30,30,30,0.95) 100%)!important;
+        border: 1px solid rgba(229,231,235,0.5)!important;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.5)!important;
     }
-    
-    /* Inputs premium */
-    div[data-testid="stNumberInput"] > div:first-of-type, 
+    div[data-testid="stNumberInput"] > div:first-of-type,
     div[data-testid="stSelectbox"] > div:first-of-type > div {
-        background: linear-gradient(135deg, rgba(28,28,28,0.9) 0%, rgba(15,15,15,0.95) 100%) !important;
-        backdrop-filter: blur(8px) !important;
-        border: 1px solid rgba(255,255,255,0.15) !important;
-        border-radius: 10px !important;
-        transition: all 0.3s cubic-bezier(0.4,0,0.2,1) !important;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.03) inset !important;
+        background: linear-gradient(135deg, rgba(28,28,28,0.9) 0%, rgba(15,15,15,0.95) 100%)!important;
+        backdrop-filter: blur(8px)!important;
+        border: 1px solid rgba(255,255,255,0.15)!important;
+        border-radius: 10px!important;
+        transition: all 0.3s cubic-bezier(0.4,0,0.2,1)!important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3)!important;
     }
     div[data-testid="stNumberInput"] > div:first-of-type:hover,
     div[data-testid="stSelectbox"] > div:first-of-type > div:hover {
-        border-color: rgba(255,255,255,0.35) !important;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.4), 0 0 12px rgba(255,255,255,0.12) !important;
+        border-color: rgba(255,255,255,0.35)!important;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.4), 0 0 12px rgba(255,255,255,0.12)!important;
         transform: translateY(-1px);
     }
     div[data-testid="stNumberInput"] > div:first-of-type:focus-within,
     div[data-testid="stSelectbox"] > div:first-of-type > div:focus-within {
-        border-color: #FFFFFF !important;
-        box-shadow: 0 0 0 3px rgba(255,255,255,0.12), 0 8px 24px rgba(0,0,0,0.5), 0 0 20px rgba(255,255,255,0.15) !important;
+        border-color: #FFFFFF!important;
+        box-shadow: 0 0 0 3px rgba(255,255,255,0.12), 0 8px 24px rgba(0,0,0,0.5), 0 0 20px rgba(255,255,255,0.15)!important;
         transform: translateY(-1px);
     }
-    .stNumberInput input {
-        color: #FFFFFF !important;
-        text-align: center !important;
-        font-weight: 600 !important;
-        letter-spacing: 0.3px !important;
+   .stNumberInput input { color: #FFFFFF!important; text-align: center!important; font-weight: 600!important; }
+    div[data-baseweb="select"] span { color: #FFFFFF!important; font-weight: 500!important; }
+    button[kind="secondary"],.stButton > button {
+        background: linear-gradient(135deg, #2A2A2A 0%, #0A0A0A 100%)!important;
+        color: #FFFFFF!important; border: 1px solid rgba(255,255,255,0.2)!important;
+        border-radius: 10px!important; padding: 10px 20px!important; font-weight: 700!important;
+        letter-spacing: 0.5px!important; text-transform: uppercase!important; font-size: 12px!important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.4)!important; transition: all 0.3s ease!important;
     }
-    div[data-baseweb="select"] span { color: #FFFFFF !important; font-weight: 500 !important; }
-    
-    /* Botones alta gama */
-    button[kind="secondary"], .stButton > button {
-        background: linear-gradient(135deg, #2A2A2A 0%, #0A0A0A 100%) !important;
-        color: #FFFFFF !important;
-        border: 1px solid rgba(255,255,255,0.2) !important;
-        border-radius: 10px !important;
-        padding: 10px 20px !important;
-        font-weight: 700 !important;
-        letter-spacing: 0.5px !important;
-        text-transform: uppercase !important;
-        font-size: 12px !important;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05) inset !important;
-        transition: all 0.3s ease !important;
+    button[kind="secondary"]:hover,.stButton > button:hover {
+        background: linear-gradient(135deg, #FFFFFF 0%, #D1D5DB 100%)!important;
+        color: #000000!important; border-color: #FFFFFF!important;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 20px rgba(255,255,255,0.2)!important;
+        transform: translateY(-2px)!important;
     }
-    button[kind="secondary"]:hover, .stButton > button:hover {
-        background: linear-gradient(135deg, #FFFFFF 0%, #D1D5DB 100%) !important;
-        color: #000000 !important;
-        border-color: #FFFFFF !important;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 20px rgba(255,255,255,0.2) !important;
-        transform: translateY(-2px) !important;
-    }
-    hr { border-color: rgba(255,255,255,0.08) !important; margin: 28px 0 !important; }
+    hr { border-color: rgba(255,255,255,0.08)!important; margin: 28px 0!important; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -192,7 +211,7 @@ TEXTOS = {
         "con_sub": "🏗️ Sector Construcción (Cálculo de Presupuesto por m²)", "con_m": "Metros cuadrados (m²):", "con_c": "Costo de materiales por m² ($):", "con_o": "Costo de mano de obra por m² ($):", "con_btn": "Calcular Presupuesto Obra", "con_res1": "Presupuesto Total Estimado: ${:.2f}", "con_res2": "Costo Total por m²: ${:.2f}",
         "fin_sub": "💹 Sector Finanzas (Cálculo de Interés Compuesto / ROI)", "fin_cap": "Capital inicial ($):", "fin_tasa": "Tasa anual (%):", "fin_anos": "Años de inversión:", "fin_btn": "Calcular Rendimiento", "fin_res1": "Monto Final Estimado: ${:.2f}", "fin_res2": "Ganancia Total: ${:.2f}",
         "edu_sub": "🎓 Sector Educación (Cálculo de Costo por Alumno)", "edu_al": "Número de alumnos:", "edu_cur": "Costo operativo del curso ($):", "edu_mat": "Costo material por alumno ($):", "edu_btn": "Calcular Costo Educativo", "edu_res1": "Costo Total del Programa: ${:.2f}", "edu_res2": "Costo por Alumno: ${:.2f}",
-        "hist_titulo": "📊 Tabla de Registros (1 mínimo / 15 máximo)", "hist_vacio": "Aún no hay registros.", "btn_borrar": "🗑️ Borrar todas las tablas"
+        "hist_titulo": "📊 Tabla de Registros (1 mínimo / 25 máximo)", "hist_vacio": "Aún no hay registros.", "btn_borrar": "🗑️ Borrar todas las tablas"
     },
     "English": {
         "titulo": "Interactive Sector Calculator",
@@ -207,7 +226,7 @@ TEXTOS = {
         "con_sub": "🏗️ Construction Sector (Budget per m² Calculation)", "con_m": "Square meters (m²):", "con_c": "Material cost per m² ($):", "con_o": "Labor cost per m² ($):", "con_btn": "Calculate Construction Budget", "con_res1": "Total Estimated Budget: ${:.2f}", "con_res2": "Total Cost per m²: ${:.2f}",
         "fin_sub": "💹 Finance Sector (Compound Interest / ROI Calculation)", "fin_cap": "Initial capital ($):", "fin_tasa": "Annual rate (%):", "fin_anos": "Years of investment:", "fin_btn": "Calculate Yield", "fin_res1": "Estimated Final Amount: ${:.2f}", "fin_res2": "Total Profit: ${:.2f}",
         "edu_sub": "🎓 Education Sector (Cost per Student Calculation)", "edu_al": "Number of students:", "edu_cur": "Course operating cost ($):", "edu_mat": "Material cost per student ($):", "edu_btn": "Calculate Educational Cost", "edu_res1": "Total Program Cost: ${:.2f}", "edu_res2": "Cost per Student: ${:.2f}",
-        "hist_titulo": "📊 Records Table (1 min / 15 max)", "hist_vacio": "No records yet.", "btn_borrar": "🗑️ Clear all tables"
+        "hist_titulo": "📊 Records Table (1 min / 25 max)", "hist_vacio": "No records yet.", "btn_borrar": "🗑️ Clear all tables"
     }
 }
 
@@ -300,8 +319,30 @@ st.subheader(txt["hist_titulo"])
 if st.session_state.historial:
     df = pd.DataFrame(st.session_state.historial)
     st.dataframe(df, use_container_width=True, hide_index=True)
-    if st.button(txt["btn_borrar"]):
-        st.session_state.historial = []
-        st.rerun()
+
+    # Descargas
+    col1, col2, col3 = st.columns([1,1,1])
+    with col1:
+        if st.button(txt["btn_borrar"]):
+            st.session_state.historial = []
+            st.rerun()
+    with col2:
+        excel_file = generar_excel(df)
+        st.download_button(
+            label="📥 Descargar Excel",
+            data=excel_file,
+            file_name="registros_calculadora.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            use_container_width=True
+        )
+    with col3:
+        pdf_file = generar_pdf(df)
+        st.download_button(
+            label="📄 Descargar PDF",
+            data=pdf_file,
+            file_name="registros_calculadora.pdf",
+            mime="application/pdf",
+            use_container_width=True
+        )
 else:
     st.info(txt["hist_vacio"])
