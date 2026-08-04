@@ -79,30 +79,31 @@ st.markdown("""
         box-shadow: 0 0 12px rgba(43, 108, 176, 0.55) !important;
     }
     
-    /* === NUEVO DISEÑO SIN FONDO, CENTRADO Y SEPARADO PARA + Y - === */
-    /* Contenedor vertical de botones totalmente transparente */
+    /* === NUEVA ALINEACIÓN HORIZONTAL, CENTRADA Y SEPARADA A LO ANCHO === */
+    /* Cambiamos el contenedor nativo de vertical a horizontal usando flex-direction: row */
     div[data-testid="stNumberInputStepUpAndDown"] {
         height: 100% !important;
         display: flex !important;
-        flex-direction: column !important;
-        justify-content: center !important; /* Centra los botones en el eje vertical */
-        align-items: center !important;     /* Centra los botones en el eje horizontal */
-        padding: 0 6px !important;
-        gap: 6px !important; /* Separación física limpia entre el botón más y menos */
+        flex-direction: row !important;      /* Alineación horizontal en vez de vertical */
+        justify-content: center !important;   /* Centra los botones en el bloque horizontal */
+        align-items: center !important;       /* Centra los botones perfectamente en el eje vertical */
+        padding: 0 12px !important;           /* Margen lateral para que no peguen al borde derecho */
+        gap: 16px !important;                 /* SEPARACIÓN A LO ANCHO entre el botón menos y más */
         background: transparent !important;
         border: none !important;
+        min-width: 75px !important;           /* Espacio garantizado a lo ancho para los controles */
     }
 
-    /* Estilo de los botones: transparentes, centrados y con transiciones suaves */
+    /* Estilo de los botones individuales ajustados a la nueva cuadrícula horizontal */
     button[data-testid="stNumberInputStepUp"], 
     button[data-testid="stNumberInputStepDown"] {
-        height: 14px !important; /* Tamaño controlado para que se centren mejor */
+        height: 24px !important;              /* Tamaño cuadrado y equilibrado */
         width: 24px !important;
         margin: 0 !important;
         border-radius: 4px !important;
         border: none !important;
-        color: #A0AEC0 !important; /* Color gris suave por defecto para el icono */
-        background-color: transparent !important; /* Sin fondo por defecto */
+        color: #A0AEC0 !important;            /* Color gris suave original para los iconos */
+        background-color: transparent !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
@@ -112,17 +113,17 @@ st.markdown("""
     /* Efecto al pasar el cursor (Hover) */
     button[data-testid="stNumberInputStepUp"]:hover, 
     button[data-testid="stNumberInputStepDown"]:hover {
-        color: #FFFFFF !important; /* El icono se ilumina en blanco al pasar el mouse */
-        background-color: rgba(255, 255, 255, 0.05) !important; /* Fondo apenas perceptible */
+        color: #FFFFFF !important;
+        background-color: rgba(255, 255, 255, 0.05) !important;
     }
 
     /* EFECTO CLICK: Destello neón azul oscuro al presionar el botón */
     button[data-testid="stNumberInputStepUp"]:active, 
     button[data-testid="stNumberInputStepDown"]:active {
-        background-color: #1A365D !important; /* Fondo azul oscuro al presionar */
+        background-color: #1A365D !important;
         color: #FFFFFF !important;
-        box-shadow: 0 0 10px #1A365D, 0 0 20px #1A365D !important; /* Brillo neón azul oscuro concentrado */
-        transform: scale(0.95); /* Ligero efecto de hundimiento táctil */
+        box-shadow: 0 0 10px #1A365D, 0 0 20px #1A365D !important;
+        transform: scale(0.92);               /* Efecto sutil de pulsación */
     }
     </style>
 """, unsafe_allow_html=True)
