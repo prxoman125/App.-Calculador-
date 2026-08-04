@@ -10,20 +10,20 @@ st.markdown("""
         visibility: hidden !important;
     }
     
-    /* === BANNER DEL TÍTULO PROFESIONAL CON DEGRADADO ARCOÍRIS Y VELOCIDAD SINCRONIZADA === */
+    /* === BANNER DEL TÍTULO PROFESIONAL CON DEGRADADO AZUL-MORADO Y VELOCIDAD SINCRONIZADA === */
     .titulo-container {
-        /* Fondo con degradado arcoíris extendido */
-        background: linear-gradient(135deg, #1E1B4B, #0F172A, #065F46, #78350F, #991B1B, #581C87, #1E1B4B);
-        background-size: 500% 500%;
+        /* Fondo con degradado continuo que combina exclusivamente tonos oscuros de azul y morado */
+        background: linear-gradient(135deg, #0A192F, #1E3A8A, #3B0764, #1E0B36, #0A192F);
+        background-size: 300% 300%;
         
         /* Una única animación controla la velocidad del fondo, borde y brillo simultáneamente */
-        animation: neonRainbowSincronizado 16s ease infinite;
+        animation: neonAzulMoradoSincronizado 12s ease-in-out infinite;
         
         padding: 24px;
         border-radius: 12px;
         text-align: center;
         margin-bottom: 28px;
-        border: 3px solid #1A365D;
+        border: 3px solid #1E3A8A;
     }
     
     .titulo-texto {
@@ -36,32 +36,21 @@ st.markdown("""
         padding: 0 !important;
     }
     
-    /* Animación del ciclo arcoíris: Sincroniza el fondo, el color del margen y el brillo neón */
-    @keyframes neonRainbowSincronizado {
+    /* Animación del ciclo continuo: Sincroniza el fondo, el color del margen y el brillo neón en tonos azul y morado */
+    @keyframes neonAzulMoradoSincronizado {
         0%, 100% {
             background-position: 0% 50%;
-            border-color: #1E3A8A; /* Margen Azul */
-            box-shadow: 0 0 25px rgba(30, 58, 138, 0.9);
-        }
-        25% {
-            background-position: 25% 50%;
-            border-color: #065F46; /* Margen Verde */
-            box-shadow: 0 0 25px rgba(6, 95, 70, 0.9);
+            border-color: #1E3A8A; /* Margen Azul Oscuro */
+            box-shadow: 0 0 25px rgba(30, 58, 138, 0.85);
         }
         50% {
-            background-position: 50% 50%;
-            border-color: #B45309; /* Margen Amarillo/Ámbar */
-            box-shadow: 0 0 25px rgba(180, 83, 9, 0.9);
-        }
-        75% {
-            background-position: 75% 50%;
-            border-color: #991B1B; /* Margen Rojo */
-            box-shadow: 0 0 25px rgba(153, 27, 27, 0.9);
+            background-position: 100% 50%;
+            border-color: #6D28D9; /* Margen Morado Oscuro */
+            box-shadow: 0 0 25px rgba(109, 40, 217, 0.85);
         }
     }
     
     /* === CORRECCIÓN INTEGRAL DE LAS BARRAS DE RESULTADOS (DEGRADADOS REALES) === */
-    /* Captura todos los contenedores de notificación posibles que usa Streamlit para sobrescribir el fondo plano */
     div[data-testid="stNotificationV2"], 
     div[role="alert"],
     div.stAlert,
