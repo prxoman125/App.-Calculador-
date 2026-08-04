@@ -10,15 +10,11 @@ st.markdown("""
         visibility: hidden !important;
     }
     
-    /* === BANNER DEL TÍTULO PROFESIONAL CON DEGRADADO AZUL-MORADO Y VELOCIDAD SINCRONIZADA === */
+    /* === BANNER DEL TÍTULO PROFESIONAL CON DEGRADADO AZUL-MORADO OSCURO === */
     .titulo-container {
-        /* Fondo con degradado continuo que combina exclusivamente tonos oscuros de azul y morado */
         background: linear-gradient(135deg, #0A192F, #1E3A8A, #3B0764, #1E0B36, #0A192F);
         background-size: 300% 300%;
-        
-        /* Una única animación controla la velocidad del fondo, borde y brillo simultáneamente */
         animation: neonAzulMoradoSincronizado 12s ease-in-out infinite;
-        
         padding: 24px;
         border-radius: 12px;
         text-align: center;
@@ -26,26 +22,46 @@ st.markdown("""
         border: 3px solid #1E3A8A;
     }
     
+    /* === NUEVA ANIMACIÓN LIGERA Y BRILLANTE DEGRADADA PARA LAS LETRAS === */
     .titulo-texto {
-        color: #FFFFFF !important;
+        /* Degradado de tonos brillantes premium para las letras */
+        background: linear-gradient(to right, #3B82F6, #06B6D4, #8B5CF6, #EC4899, #3B82F6);
+        background-size: 300% auto;
+        
+        /* Truco CSS para que el degradado rellene solo el texto */
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+        text-fill-color: transparent !important;
+        
+        /* Animación continua, muy lenta y sutil en las letras */
+        animation: brilloLetrasAnimacion 8s linear infinite;
+        
         font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         font-weight: 700;
         font-size: 30px;
         letter-spacing: -0.5px;
         margin: 0 !important;
         padding: 0 !important;
+        display: inline-block;
     }
     
-    /* Animación del ciclo continuo: Sincroniza el fondo, el color del margen y el brillo neón en tonos azul y morado */
+    /* Animación suave para el movimiento del degradado brillante interno de las letras */
+    @keyframes brilloLetrasAnimacion {
+        0% { background-position: 0% center; }
+        100% { background-position: 300% center; }
+    }
+    
+    /* Animación del ciclo continuo de la CAJA (Fondo oscuro, margen y brillo neón) */
     @keyframes neonAzulMoradoSincronizado {
         0%, 100% {
             background-position: 0% 50%;
-            border-color: #1E3A8A; /* Margen Azul Oscuro */
+            border-color: #1E3A8A; 
             box-shadow: 0 0 25px rgba(30, 58, 138, 0.85);
         }
         50% {
             background-position: 100% 50%;
-            border-color: #6D28D9; /* Margen Morado Oscuro */
+            border-color: #6D28D9; 
             box-shadow: 0 0 25px rgba(109, 40, 217, 0.85);
         }
     }
@@ -175,7 +191,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Renderizado del título profesional usando el contenedor CSS personalizado
-st.markdown('<div class="titulo-container"><p class="titulo-texto">Calculadora Interactiva por Sectores</p></div>', unsafe_allow_html=True)
+st.markdown('<div class="titulo-container"><span class="titulo-texto">Calculadora Interactiva por Sectores</span></div>', unsafe_allow_html=True)
 
 st.write("Selecciona un sector, ingresa los datos y calcula los resultados de forma automática.")
 
