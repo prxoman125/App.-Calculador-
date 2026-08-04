@@ -17,6 +17,18 @@ st.markdown("""
         margin-bottom: 5px !important;
         height: auto !important;
         min-height: revert !important;
+        
+        /* Cambiar el fondo a azul oscuro y el texto/icono a blanco */
+        background-color: #0B3C5D !important;
+        color: white !important;
+        border: none !important;
+    }
+    
+    /* Efecto al pasar el cursor (hover) para mejorar la experiencia de usuario */
+    button[data-testid="stNumberInputStepUp"]:hover, 
+    button[data-testid="stNumberInputStepDown"]:hover {
+        background-color: #07273D !important;
+        color: white !important;
     }
     </style>
 """, unsafe_allow_html=True)
