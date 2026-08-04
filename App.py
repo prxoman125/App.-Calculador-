@@ -80,16 +80,29 @@ st.markdown("""
     }
     div[data-testid="stDataFrame"] th { border-bottom: 2px solid #8AAED6 !important; }
     div[data-testid="stDataFrame"] td { border-bottom: 1px solid #6E9AC0 !important; border-right: 1px solid #6E9AC0 !important; }
+    
     div[data-testid="stNotificationV2"], div[role="alert"], div.stAlert {
-        background-image: none !important; background-color: transparent !important; border-radius: 8px !important;
+        background-image: none !important; background-color: transparent !important; border-radius: 10px !important;
     }
-    div[data-testid="stNotificationV2"]:has(svg[title="Success"]), div[role="alert"]:has(svg[title="Success"]) {
-        background: linear-gradient(135deg, #10B981, #064E3B) !important; border: 2px solid #10B981 !important; color: #FFF !important;
+    /* === RECUADROS RESULTADOS MÁS NOTABLES + MARGEN NEÓN === */
+    div[data-testid="stNotificationV2"]:has(svg[title="Success"]),
+    div[role="alert"]:has(svg[title="Success"]),
+    .stAlert:has(svg[title="Success"]) {
+        background: linear-gradient(135deg, #10B981 0%, #059669 50%, #047857 100%) !important;
+        border: 2px solid #34D399 !important;
+        box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.25), 0 0 14px rgba(16, 185, 129, 0.6), 0 0 28px rgba(16, 185, 129, 0.3) !important;
+        color: #FFFFFF !important;
     }
-    div[data-testid="stNotificationV2"]:has(svg[title="Info"]), div[role="alert"]:has(svg[title="Info"]) {
-        background: linear-gradient(135deg, #3B82F6, #1E3A8A) !important; border: 2px solid #3B82F6 !important; color: #FFF !important;
+    div[data-testid="stNotificationV2"]:has(svg[title="Info"]),
+    div[role="alert"]:has(svg[title="Info"]),
+    .stAlert:has(svg[title="Info"]) {
+        background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 50%, #1E40AF 100%) !important;
+        border: 2px solid #60A5FA !important;
+        box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.25), 0 0 14px rgba(59, 130, 246, 0.6), 0 0 28px rgba(59, 130, 246, 0.35) !important;
+        color: #FFFFFF !important;
     }
-    .stAlert p, .stAlert div { color: #FFFFFF !important; }
+    .stAlert p, .stAlert div { color: #FFFFFF !important; font-weight: 600 !important; }
+    
     div[data-testid="stNumberInput"] > div:first-of-type, 
     div[data-testid="stSelectbox"] > div:first-of-type > div {
         border: 2px solid #38BDF8 !important;
@@ -266,4 +279,4 @@ if st.session_state.historial:
         st.session_state.historial = []
         st.rerun()
 else:
-    st.info(txt["hist_vacio"])
+    st.info(txt["hist_vacio"]) 
