@@ -1,8 +1,19 @@
 import streamlit as st
 
-st.title("Ustatic de Cámara Móvil")
-imagen = st.camera_input("Toma una foto")
+# Configuración de la página para móviles
+st.set_page_config(page_title="Agenda Médica", layout="centered")
 
-if imagen is not None:
-  st.success("¡Foto capturada con éxito!")
-  st.image(imagen)
+st.title("🏥 Control Médico")
+st.subheader("Registro de Pacientes")
+
+# Formulario para el consultorio
+nombre = st.text_input("Nombre completo del paciente:")
+edad = st.number_input("Edad:", min_value=0, max_value=120, step=1)
+motivo = st.text_area("Motivo de la consulta:")
+
+if st.button("Guardar Registro"):
+    if nombre and motivo:
+        st.success(f"¡Paciente {nombre} registrado con éxito!")
+        # Aquí puedes agregar lógica para guardar los datos
+    else:
+        st.error("Por favor llena todos los campos.")
